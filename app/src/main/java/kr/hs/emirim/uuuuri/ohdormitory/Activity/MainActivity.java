@@ -35,10 +35,17 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+
         // 이미지로 바꿔야 함
-        tabLayout.addTab(tabLayout.newTab().setText("Tab One"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab Two"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab Three"));
+        final int[] ICONS = new int[]{
+                R.drawable.tab1,
+                R.drawable.tab2,
+                R.drawable.tab3};
+
+        // tabLayout.addTab(tabLayout.newTab().setText("Tab One"));
+        tabLayout.addTab(tabLayout.newTab().setIcon(ICONS[0]));
+        tabLayout.addTab(tabLayout.newTab().setIcon(ICONS[1]));
+        tabLayout.addTab(tabLayout.newTab().setIcon(ICONS[2]));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         // Initializing ViewPager
