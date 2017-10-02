@@ -61,17 +61,12 @@ public class SignInActivity extends BaseActivity{
 
             @Override
             public void onClick(View view) {
-                /*
-                *
-                *
                 startSignIn(mMailEt.getText().toString(), mPassWordEt.getText().toString());
-                *
-                *
-                * */
+
 //                test용 코드
-                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+//                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+//                startActivity(intent);
+//                finish();
 
             }
         });
@@ -85,7 +80,24 @@ public class SignInActivity extends BaseActivity{
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance();
+        if(currentUser!=null){
+            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // Remove post value event listener
+        if (mUserListener != null) {
+            mUserRefer.removeEventListener(mUserListener);
+        }
+
+    }
+
 
     private void startSignIn(final String email, final String password) {
         if (!validateForm()) {
@@ -110,6 +122,10 @@ public class SignInActivity extends BaseActivity{
                     createAccount(email, password);
                 }else{
                     switch (value){
+                        case -1:
+                            inputInfoDialog(email);
+                            hideProgressDialog();
+                            break;
                         case 0:
                             showDialog("권한을 부여받고 있습니다.");
                             hideProgressDialog();
@@ -130,16 +146,7 @@ public class SignInActivity extends BaseActivity{
         });
 
     }
-    @Override
-    public void onStop() {
-        super.onStop();
 
-        // Remove post value event listener
-        if (mUserListener != null) {
-            mUserRefer.removeEventListener(mUserListener);
-        }
-
-    }
 
     private void createAccount(final String email, final String password) {
         String longEmail = email +"@e-mirim.hs.kr";
@@ -149,6 +156,12 @@ public class SignInActivity extends BaseActivity{
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            User user = new User(null, null, -1);
+                            mInputUserRefer = mDatabase.getReference();
+                            Log.e("OK", "OK");
+                            mInputUserRefer.child("user").child(email).setValue(user);
+                            Log.e("OK", "OKOK");
+
                             inputInfoDialog(email);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -231,9 +244,7 @@ public class SignInActivity extends BaseActivity{
                     return;
                 User user = new User(name, String.valueOf(mRoomNumber), 0);
                 mInputUserRefer = mDatabase.getReference();
-                Log.e("OK", "OK");
                 mInputUserRefer.child("user").child(email).setValue(user);
-                Log.e("OK", "OKOK");
                 dialog.dismiss();
             }
         });

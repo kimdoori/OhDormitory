@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import kr.hs.emirim.uuuuri.ohdormitory.R;
 
 public class UserInfoActivity extends AppCompatActivity {
@@ -30,6 +32,15 @@ public class UserInfoActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.sign_out).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(UserInfoActivity.this, SignInActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
     }
 }
