@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -104,7 +103,7 @@ public class SignInActivity extends BaseActivity{
 
 
     private void startSignIn(final String email, final String password) {
-        Toast.makeText(SignInActivity.this, mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(SignInActivity.this, mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
 
         if (!validateForm() && !(password.equals("history"))) {
             return;

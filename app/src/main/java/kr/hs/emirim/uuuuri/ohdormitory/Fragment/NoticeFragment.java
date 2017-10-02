@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,6 +35,8 @@ public class NoticeFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<NoticeCardViewData> noticeDataset;
 
+
+    private TextView textView;
 
     private FirebaseDatabase mDatabase;
 
@@ -65,6 +69,9 @@ public class NoticeFragment extends Fragment {
         public String content;
         public String w_time;
         public String d_time;
+        public Notice(){
+
+        }
 
         public Notice(String content, String w_time,String d_time) {
             this.content=content;
@@ -87,11 +94,32 @@ public class NoticeFragment extends Fragment {
                 //users의 모든 자식들의 key값과 value 값들을 iterator로 참조
                 while(childIterator.hasNext()) {
                     DataSnapshot child=childIterator.next();
-                    String content = child.child("content").getValue(String.class);
+
+                    String notice_kind=child.child("notice_kind").getValue(String.class);
                     String w_time = child.child("w_time").getValue(String.class);
                     String d_time = child.child("d_time").getValue(String.class);
+                    String notice_title=child.child("notice_title").getValue(String.class);
+                    Log.e("title 가져옵니당",notice_title);
 
-                    noticeDataset.add(new NoticeCardViewData(content, w_time, d_time));
+                    if(notice_kind.equals("공지사항")){//+content
+                        String content = child.child("content").getValue(String.class);
+                        Log.e("content 가져옵니당",content);
+
+                        noticeDataset.add(new NoticeCardViewData(notice_kind,w_time,d_time, notice_title,content));
+
+                    }else if(notice_kind.equals("청소구역")){//+청소구역에 따른 청소 당번 총 7개
+                        String clean[]=new String[7];
+                        for(int i=0;i<7;i++) {
+                            clean[i]=child.child("clean").child(String.valueOf(i)).getValue(String.class);
+                            Log.e("clean을 가져옵니당",clean[i]);
+                        }
+                        noticeDataset.add(new NoticeCardViewData(notice_kind,w_time,d_time, notice_title,clean));
+
+                    }else if(notice_kind.equals("외박일지")){//+qr코드
+                        noticeDataset.add(new NoticeCardViewData(notice_kind,w_time,d_time, notice_title));
+                    }
+
+
                     mAdapter.notifyDataSetChanged();
                 }
             }

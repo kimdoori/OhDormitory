@@ -54,8 +54,8 @@ public class NoticeCardViewAdapter extends RecyclerView.Adapter<NoticeCardViewAd
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTextView_content.setText(mDataset.get(position).content);
-        holder.mTextView_time.setText(mDataset.get(position).w_time+" - "+mDataset.get(position).d_time);
+        holder.mTextView_content.setText(mDataset.get(position).getContent());
+        holder.mTextView_time.setText(mDataset.get(position).getW_time()+" - "+mDataset.get(position).getD_time());
 
     }
 
