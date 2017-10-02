@@ -8,7 +8,6 @@
     >
 
     <android.support.v7.widget.CardView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,14 +28,9 @@
                 android:background="@drawable/cardview"
                 >
                 <TextView
-                    android:id="@+id/textview_w_time"
+                    android:id="@+id/textview_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/textview_d_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
 
                 <TextView
                     android:id="@+id/textview_content"

@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,8 +24,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import kr.hs.emirim.uuuuri.ohdormitory.R;
 import kr.hs.emirim.uuuuri.ohdormitory.Model.User;
+import kr.hs.emirim.uuuuri.ohdormitory.R;
 
 /**
  * A login screen that offers login via email/password.
@@ -83,12 +84,12 @@ public class SignInActivity extends BaseActivity{
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance();
+
         if(currentUser!=null){
-            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            startSignIn(mAuth.getCurrentUser().getEmail().replace("@e-mirim.hs.kr", ""), "history");
         }
     }
+
 
     @Override
     public void onStop() {
@@ -103,9 +104,12 @@ public class SignInActivity extends BaseActivity{
 
 
     private void startSignIn(final String email, final String password) {
-        if (!validateForm()) {
+        Toast.makeText(SignInActivity.this, mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
+
+        if (!validateForm() && !(password.equals("history"))) {
             return;
         }
+
         showProgressDialog();
 
         Log.e(TAG, "signIn:" + email);
@@ -121,7 +125,7 @@ public class SignInActivity extends BaseActivity{
                 Integer value = dataSnapshot.getValue(Integer.class);
 
                 Log.e("이건되냐?", "Value is: " + value);
-                if(value ==null){
+                if(value ==null && password!=null){
                     createAccount(email, password);
                 }else{
                     switch (value){
@@ -159,11 +163,9 @@ public class SignInActivity extends BaseActivity{
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            User user = new User(null, null, -1);
+                            User user = new User(mAuth.getCurrentUser().getUid(), null, -1, null);
                             mInputUserRefer = mDatabase.getReference();
-                            Log.e("OK", "OK");
                             mInputUserRefer.child("user").child(email).setValue(user);
-                            Log.e("OK", "OKOK");
 
                             inputInfoDialog(email);
                         } else {
@@ -201,6 +203,13 @@ public class SignInActivity extends BaseActivity{
     }
 
     private void signIn(String email, String password){
+
+        if(password == null){
+            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -245,7 +254,7 @@ public class SignInActivity extends BaseActivity{
 
                 if(name.equals("")||name==null)
                     return;
-                User user = new User(name, String.valueOf(mRoomNumber), 0);
+                User user = new User(mAuth.getCurrentUser().getUid(), name, 0, String.valueOf(mRoomNumber));
                 mInputUserRefer = mDatabase.getReference();
                 mInputUserRefer.child("user").child(email).setValue(user);
                 dialog.dismiss();
@@ -268,7 +277,5 @@ public class SignInActivity extends BaseActivity{
         });
         dialog.show();
     }
-
-
 }
 

@@ -24,15 +24,13 @@ public class NoticeCardViewAdapter extends RecyclerView.Adapter<NoticeCardViewAd
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView mTextView_content;
-        public TextView mTextView_w_time;
-        public TextView mTextView_d_time;
+        public TextView mTextView_time;
 
 
         public ViewHolder(View view) {
             super(view);
             mTextView_content = (TextView)view.findViewById(R.id.textview_content);
-            mTextView_w_time= (TextView)view.findViewById(R.id.textview_w_time);
-            mTextView_d_time= (TextView)view.findViewById(R.id.textview_d_time);
+            mTextView_time= (TextView)view.findViewById(R.id.textview_time);
         }
     }
 
@@ -57,8 +55,7 @@ public class NoticeCardViewAdapter extends RecyclerView.Adapter<NoticeCardViewAd
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.mTextView_content.setText(mDataset.get(position).content);
-        holder.mTextView_w_time.setText(mDataset.get(position).w_time);
-        holder.mTextView_d_time.setText(mDataset.get(position).d_time);
+        holder.mTextView_time.setText(mDataset.get(position).w_time+" - "+mDataset.get(position).d_time);
 
     }
 

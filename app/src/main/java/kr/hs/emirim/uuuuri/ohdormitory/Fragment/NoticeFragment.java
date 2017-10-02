@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,8 +33,6 @@ public class NoticeFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<NoticeCardViewData> noticeDataset;
 
-
-    private TextView textView;
 
     private FirebaseDatabase mDatabase;
 
@@ -68,9 +65,6 @@ public class NoticeFragment extends Fragment {
         public String content;
         public String w_time;
         public String d_time;
-        public Notice(){
-
-        }
 
         public Notice(String content, String w_time,String d_time) {
             this.content=content;
@@ -97,7 +91,7 @@ public class NoticeFragment extends Fragment {
                     String w_time = child.child("w_time").getValue(String.class);
                     String d_time = child.child("d_time").getValue(String.class);
 
-                    noticeDataset.add(new NoticeCardViewData("공지 내용 : " + content, "올린 날짜 : " + w_time, "내릴 날짜 : " + d_time));
+                    noticeDataset.add(new NoticeCardViewData(content, w_time, d_time));
                     mAdapter.notifyDataSetChanged();
                 }
             }

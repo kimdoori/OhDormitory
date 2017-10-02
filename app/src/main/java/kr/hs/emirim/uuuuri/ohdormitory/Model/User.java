@@ -5,9 +5,11 @@ package kr.hs.emirim.uuuuri.ohdormitory.Model;
  */
 
 public class User {
+    private String uid;
     private String name;
-    private String roomNumber;
     private int allowCode;
+    private String roomNumber;
+
 
     public String getName() {
         return name;
@@ -21,10 +23,14 @@ public class User {
         return allowCode;
     }
 
-    public User(String name, String roomNumber, int allowCode) {
+    public String getUid() {
+        return uid;
+    }
 
+    public User(String uid, String name, int allowCode, String roomNumber) {
+        this.uid = uid;
         this.name = name;
-        this.roomNumber = roomNumber;
         this.allowCode = allowCode;
+        this.roomNumber = roomNumber;
     }
 }
