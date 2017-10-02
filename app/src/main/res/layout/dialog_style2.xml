@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="160dp"
+    android:gravity="center_vertical|center_horizontal"
+    android:background="@drawable/popup_background">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/dialog_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:padding="35dp"
+            android:text="검색 결과가 도움이 되셨습니까?"
+            android:textColor="#7c7c7c"
+             />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="7dp"
+        android:gravity="center_horizontal"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1">
+        <Button
+            android:id="@+id/dialog_button_yes"
+            android:layout_alignParentLeft="true"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="#ffffff"
+            android:textColor="#7c7c7c"
+            android:text="네"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

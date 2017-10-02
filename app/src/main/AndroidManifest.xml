@@ -26,7 +26,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.SignInActivity" />
+            android:name=".Activity.SignInActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Activity.QRCamActivity" />
         <activity android:name=".Activity.NoticeDetailActivity" />
         <activity android:name=".Activity.ToggleSettingsActivity" />
