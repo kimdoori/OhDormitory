@@ -61,12 +61,14 @@ public class SignInActivity extends BaseActivity{
 
             @Override
             public void onClick(View view) {
-                startSignIn(mMailEt.getText().toString(), mPassWordEt.getText().toString());
-
-//                test용 코드
-//                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-//                startActivity(intent);
-//                finish();
+//                startSignIn(mMailEt.getText().toString(), mPassWordEt.getText().toString());
+                
+/*
+*               test용 코드
+* */
+                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
 
             }
         });
