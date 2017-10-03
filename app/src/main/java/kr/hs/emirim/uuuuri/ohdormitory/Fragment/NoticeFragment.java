@@ -90,6 +90,8 @@ public class NoticeFragment extends Fragment {
         ValueEventListener noticeListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                noticeDataset.clear();
+
                 Iterator<DataSnapshot> childIterator = dataSnapshot.getChildren().iterator();
                 //users의 모든 자식들의 key값과 value 값들을 iterator로 참조
                 while(childIterator.hasNext()) {
@@ -118,7 +120,6 @@ public class NoticeFragment extends Fragment {
                     }else if(notice_kind.equals("외박일지")){//+qr코드
                         noticeDataset.add(new NoticeCardViewData(notice_kind,w_time,d_time, notice_title));
                     }
-
 
                     mAdapter.notifyDataSetChanged();
                 }

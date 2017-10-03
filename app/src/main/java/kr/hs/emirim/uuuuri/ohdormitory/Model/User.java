@@ -8,14 +8,14 @@ public class User {
     private String uid;
     private String name;
     private int allowCode;
-    private String roomNumber;
+    private int roomNumber;
 
 
     public String getName() {
         return name;
     }
 
-    public String getRoomNumber() {
+    public int getRoomNumber() {
         return roomNumber;
     }
 
@@ -27,7 +27,7 @@ public class User {
         return uid;
     }
 
-    public User(String uid, String name, int allowCode, String roomNumber) {
+    public User(String uid, String name, int allowCode, int roomNumber) {
         this.uid = uid;
         this.name = name;
         this.allowCode = allowCode;

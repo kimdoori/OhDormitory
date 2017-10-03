@@ -27,7 +27,9 @@
         </activity>
         <activity
             android:name=".Activity.SignInActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize"/>
+
         <activity android:name=".Activity.QRCamActivity" />
         <activity android:name=".Activity.NoticeDetailActivity" />
         <activity android:name=".Activity.ToggleSettingsActivity" />

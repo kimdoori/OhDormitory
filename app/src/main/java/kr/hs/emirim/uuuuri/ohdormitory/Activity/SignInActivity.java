@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,19 +27,17 @@ import com.google.firebase.database.ValueEventListener;
 import kr.hs.emirim.uuuuri.ohdormitory.Model.User;
 import kr.hs.emirim.uuuuri.ohdormitory.R;
 
-/**
- * A login screen that offers login via email/password.
- */
-
+// TODO: 2017-10-02 패스워드 틀릴경우 안내
 public class SignInActivity extends BaseActivity{
 
-    private static final String TAG = "SIGNINACTIVITY";
-
+    private final String TAG = "SIGNINACTIVITY";
+    private final String CHECK_HISTORY = "CHECK_HISTORY";
+    private final String ALLOW_DOMAIN = "@e-mirim.hs.kr";
     EditText mMailEt;
     EditText mPassWordEt;
+    Dialog mDialog;
 
     private int mRoomNumber;
-
 
     // [START declare_auth]
     private FirebaseAuth mAuth;
@@ -54,6 +53,8 @@ public class SignInActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sigin_in);
 
+        getWindow().setBackgroundDrawableResource(R.drawable.signin);
+
         mMailEt = (EditText) findViewById(R.id.email);
         mPassWordEt = (EditText) findViewById(R.id.password);
 
@@ -61,8 +62,7 @@ public class SignInActivity extends BaseActivity{
 
             @Override
             public void onClick(View view) {
-
-            startSignIn(mMailEt.getText().toString(), mPassWordEt.getText().toString());
+                startSignIn(mMailEt.getText().toString(), mPassWordEt.getText().toString());
 
 /*
 *               test용 코드
@@ -85,7 +85,11 @@ public class SignInActivity extends BaseActivity{
         mDatabase = FirebaseDatabase.getInstance();
 
         if(currentUser!=null){
-            startSignIn(mAuth.getCurrentUser().getEmail().replace("@e-mirim.hs.kr", ""), "history");
+            String email = mAuth.getCurrentUser().getEmail().replace(ALLOW_DOMAIN, "");
+            startSignIn(email, CHECK_HISTORY);
+            mMailEt.setText(email);
+            mMailEt.setError(null);
+            mPassWordEt.setError(null);
         }
     }
 
@@ -103,17 +107,15 @@ public class SignInActivity extends BaseActivity{
 
 
     private void startSignIn(final String email, final String password) {
-//        Toast.makeText(SignInActivity.this, mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
 
-        if (!validateForm() && !(password.equals("history"))) {
+        if (!validateForm() && !(password.equals(CHECK_HISTORY))) {
             return;
         }
 
         showProgressDialog();
 
-        Log.e(TAG, "signIn:" + email);
-        final String longEmail = email+"@e-mirim.hs.kr";
-        mUserRefer = mDatabase.getReference("user/"+email+"/allowCode");
+        final String longEmail = email+ALLOW_DOMAIN;
+        mUserRefer = mDatabase.getReference("user/"+email);
 
         mUserListener = mUserRefer.addValueEventListener(new ValueEventListener() {
             @Override
@@ -121,16 +123,26 @@ public class SignInActivity extends BaseActivity{
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
 
-                Integer value = dataSnapshot.getValue(Integer.class);
+                Integer value = dataSnapshot.child("allowCode").getValue(Integer.class);
+
+
+                if(mDialog!=null)
+                    mDialog.dismiss();
 
                 Log.e("이건되냐?", "Value is: " + value);
-                if(value ==null && password!=null){
+
+                if(value == null && password!=null){
                     createAccount(email, password);
                 }else{
+
                     switch (value){
+                        case -2: // 권한 거절
+                            String error = "권한을 거절당하셨습니다.\n입력하신 정보를 확인해주세요.";
+                            inputInfoDialog(error, email, password, dataSnapshot.child("roomNumber").getValue(Integer.class), dataSnapshot.child("name").getValue(String.class));
+                            break;
                         case -1:
-                            inputInfoDialog(email);
                             hideProgressDialog();
+                            reInputInfoDialog(longEmail, password, null, null);
                             break;
                         case 0:
                             showDialog("권한을 부여받고 있습니다.");
@@ -155,24 +167,31 @@ public class SignInActivity extends BaseActivity{
 
 
     private void createAccount(final String email, final String password) {
-        String longEmail = email +"@e-mirim.hs.kr";
+        String longEmail = email +ALLOW_DOMAIN;
         // [START create_user_with_email]
         mAuth.createUserWithEmailAndPassword(longEmail, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            User user = new User(mAuth.getCurrentUser().getUid(), null, -1, null);
+                            User user = new User(mAuth.getCurrentUser().getUid(), null, -1, -99);
                             mInputUserRefer = mDatabase.getReference();
                             mInputUserRefer.child("user").child(email).setValue(user);
-
-                            inputInfoDialog(email);
+                            inputInfoDialog(email, null, null);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.e(TAG, "createUserWithEmail:failure", task.getException());
-                            //todo 비밀번호 예외 처리
-                            showDialog("아이디 등록에 실패하였습니다.");
+
+                            try {
+                                throw task.getException();
+                            } catch (FirebaseAuthInvalidCredentialsException e) {
+                                showDialog("비밀번호를 확인하세요.");
+                            } catch (Exception e) {
+                                showDialog("아이디 등록에 실패하였습니다.");
+                            }
+                            Log.e(TAG, "signInWithEmail:failure", task.getException());
                         }
+
 
                         hideProgressDialog();
                     }
@@ -203,7 +222,7 @@ public class SignInActivity extends BaseActivity{
 
     private void signIn(String email, String password){
 
-        if(password == null){
+        if(password.equals(CHECK_HISTORY)){
             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -220,7 +239,8 @@ public class SignInActivity extends BaseActivity{
                             startActivity(intent);
                             finish();
                         } else {
-                            Log.e(TAG, "signInWithEmail:failure", task.getException());
+                            Log.e(TAG, "SignIn:failure", task.getException());
+
                         }
                         hideProgressDialog();
                     }
@@ -228,53 +248,102 @@ public class SignInActivity extends BaseActivity{
     }
 
 
-    private void inputInfoDialog(final String email){
+    private void inputInfoDialog(final String email, Integer roomNumber, String name){
+        Log.e("유후~", email+roomNumber+name);
 
-        final Dialog dialog = new Dialog(this, R.style.MyDialog);
-        dialog.setContentView(R.layout.dialog_style1);
+        mDialog = new Dialog(this, R.style.MyDialog);
+        mDialog.setContentView(R.layout.dialog_style1);
+        int selectedPosition = 0;
 
-        Spinner spinner = (Spinner) dialog.findViewById(R.id.roomNumber);
+        Spinner spinner = (Spinner) mDialog.findViewById(R.id.roomNumber);
+        if(roomNumber!= null)
+            if(roomNumber>=0 && roomNumber<37)
+                spinner.setSelection(roomNumber);
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mRoomNumber = position+1;
+                mRoomNumber = position;
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
 
-        final EditText nameEt = (EditText) dialog.findViewById(R.id.name);
-
-        dialog.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
+        final EditText nameEt = (EditText) mDialog.findViewById(R.id.name);
+        if(name != null)
+            nameEt.setText(name);
+        mDialog.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String name = nameEt.getText().toString();
 
                 if(name.equals("")||name==null)
                     return;
-                User user = new User(mAuth.getCurrentUser().getUid(), name, 0, String.valueOf(mRoomNumber));
+                // TODO: 2017-10-03   -2 상태에서 다시 제출 할 때 getUid() => null
+                User user = new User(getUid(), name, 0, mRoomNumber);
                 mInputUserRefer = mDatabase.getReference();
                 mInputUserRefer.child("user").child(email).setValue(user);
-                dialog.dismiss();
+                mDialog.dismiss();
+                mDialog = null;
             }
         });
-        dialog.show();
+        mDialog.show();
     }
 
     private void showDialog(String text){
-        final Dialog dialog = new Dialog(this, R.style.MyDialog);
-        dialog.setContentView(R.layout.dialog_style2);
+        mDialog = new Dialog(this, R.style.MyDialog);
+        mDialog.setContentView(R.layout.dialog_style2);
 
-        ((TextView)dialog.findViewById(R.id.dialog_text)).setText(text);
-        dialog.findViewById(R.id.dialog_button_yes).setOnClickListener(new View.OnClickListener(){
+        ((TextView) mDialog.findViewById(R.id.dialog_text)).setText(text);
+        mDialog.findViewById(R.id.dialog_button_yes).setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View view) {
-                dialog.dismiss();
+                mDialog.dismiss();
+                mDialog = null;
+                return;
             }
         });
-        dialog.show();
+        mDialog.show();
+
+    }
+
+    private void inputInfoDialog(final String text, final String email, final String password, final Integer roomNumber, final String name){
+        mDialog = new Dialog(this, R.style.MyDialog);
+        mDialog.setContentView(R.layout.dialog_style2);
+        ((TextView) mDialog.findViewById(R.id.dialog_text)).setText(text);
+        mDialog.show();
+        hideProgressDialog();
+
+        mDialog.findViewById(R.id.dialog_button_yes).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                mDialog.dismiss();
+                mDialog= null;
+                reInputInfoDialog(email+ALLOW_DOMAIN, password, roomNumber, name);
+            }
+        });
+
+    }
+
+    private void reInputInfoDialog(final String longEmail, String password, final Integer roomNumber, final String name){
+        final String email = longEmail.replace(ALLOW_DOMAIN, "");
+
+        mAuth.signInWithEmailAndPassword(longEmail, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.e(TAG, "signInWithEmail:success");
+                            inputInfoDialog(email, roomNumber, name);
+                        } else {
+                            Log.e(TAG, "signInWithEmail:failure", task.getException());
+                        }
+                        hideProgressDialog();
+                    }
+                });
     }
 }
 

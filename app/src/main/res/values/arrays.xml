@@ -5,20 +5,43 @@
         <item >5</item>
     </string-array>
     <string-array name="number">
-        <item >1</item>
-        <item >2</item>
-        <item >3</item>
-        <item >4</item>
-        <item >5</item>
-        <item >6</item>
-        <item >7</item>
-        <item >8</item>
-        <item >9</item>
-        <item >10</item>
-        <item >11</item>
-        <item >12</item>
-        <item >13</item>
-        <item >14</item>
+        <item >401</item>
+        <item >402</item>
+        <item >403</item>
+        <item >404</item>
+        <item >405</item>
+        <item >406</item>
+        <item >407</item>
+        <item >408</item>
+        <item >409</item>
+        <item >410</item>
+        <item >411</item>
+        <item >412</item>
+        <item >413</item>
+        <item >414</item>
+        <item >415</item>
+        <item >416</item>
+        <item >417</item>
+        <item >418</item>
+        <item >501</item>
+        <item >502</item>
+        <item >503</item>
+        <item >504</item>
+        <item >505</item>
+        <item >506</item>
+        <item >507</item>
+        <item >508</item>
+        <item >509</item>
+        <item >510</item>
+        <item >511</item>
+        <item >512</item>
+        <item >513</item>
+        <item >514</item>
+        <item >515</item>
+        <item >516</item>
+        <item >517</item>
+        <item >518</item>
+        <item >519</item>
     </string-array>
 
 </resources>
