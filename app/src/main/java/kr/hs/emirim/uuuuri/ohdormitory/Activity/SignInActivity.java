@@ -27,7 +27,6 @@ import com.google.firebase.database.ValueEventListener;
 import kr.hs.emirim.uuuuri.ohdormitory.Model.User;
 import kr.hs.emirim.uuuuri.ohdormitory.R;
 
-// TODO: 2017-10-02 패스워드 틀릴경우 안내
 public class SignInActivity extends BaseActivity{
 
     private final String TAG = "SIGNINACTIVITY";

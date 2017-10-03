@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="floor">
-        <item >4</item>
-        <item >5</item>
+    <string-array name="frontNumber">
+        <item >010</item>
+        <item >02</item>
+        <item >070</item>
     </string-array>
+
+    <string-array name="sleepOut">
+        <item >잔류</item>
+        <item >금요외박</item>
+        <item >토요외박</item>
+    </string-array>
+
     <string-array name="number">
         <item >401</item>
         <item >402</item>

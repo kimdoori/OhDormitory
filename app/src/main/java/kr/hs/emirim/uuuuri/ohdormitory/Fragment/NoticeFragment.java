@@ -59,31 +59,13 @@ public class NoticeFragment extends Fragment {
         mAdapter = new NoticeCardViewAdapter(noticeDataset);
         mRecyclerView.setAdapter(mAdapter);
 
-
         changeNotice();
-
         return view;
-
     }
-    public static class Notice{
-        public String content;
-        public String w_time;
-        public String d_time;
-        public Notice(){
 
-        }
-
-        public Notice(String content, String w_time,String d_time) {
-            this.content=content;
-            this.w_time=w_time;
-            this.d_time=d_time;
-        }
-    }
     public void changeNotice(){
 
         mDatabase = FirebaseDatabase.getInstance();
-
-
 
         final DatabaseReference noticeRef = mDatabase.getReference("notice");
 
@@ -110,15 +92,18 @@ public class NoticeFragment extends Fragment {
                         noticeDataset.add(new NoticeCardViewData(notice_kind,w_time,d_time, notice_title,content));
 
                     }else if(notice_kind.equals("청소구역")){//+청소구역에 따른 청소 당번 총 7개
-                        String clean[]=new String[7];
+                        String clean[]=new String[14];
                         for(int i=0;i<7;i++) {
-                            clean[i]=child.child("clean").child(String.valueOf(i)).getValue(String.class);
-                            Log.e("clean을 가져옵니당",clean[i]);
+                            clean[i]=child.child("clean_4").child(String.valueOf(i)).getValue(String.class);
+                        }
+                        for(int i = 0; i<7; i++){
+                            clean[i+7]=child.child("clean_5").child(String.valueOf(i)).getValue(String.class);
                         }
                         noticeDataset.add(new NoticeCardViewData(notice_kind,w_time,d_time, notice_title,clean));
-
                     }else if(notice_kind.equals("외박일지")){//+qr코드
-                        noticeDataset.add(new NoticeCardViewData(notice_kind,w_time,d_time, notice_title));
+                        String sleep_w_time = child.child("sleep_w_time").getValue(String.class);
+                        String sleep_d_time = child.child("sleep_d_time").getValue(String.class);
+                        noticeDataset.add(new NoticeCardViewData(notice_kind,w_time,d_time, notice_title, sleep_w_time, sleep_d_time));
                     }
 
                     mAdapter.notifyDataSetChanged();

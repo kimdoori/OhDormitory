@@ -99,12 +99,12 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
+    // onClick Method
     public void settings(View v){
         switch (v.getId()){
             case R.id.action_settings:
                 Intent intent = new Intent(MainActivity.this, UserInfoActivity.class);
                 startActivity(intent);
-                finish();
                 break;
         }
 
