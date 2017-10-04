@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import kr.hs.emirim.uuuuri.ohdormitory.Model.NoticeCardViewData;
+import kr.hs.emirim.uuuuri.ohdormitory.Model.Notice;
 import kr.hs.emirim.uuuuri.ohdormitory.R;
 
 public class NoticeDetailActivity extends AppCompatActivity {
@@ -34,7 +34,7 @@ public class NoticeDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        NoticeCardViewData notice = (NoticeCardViewData) bundle.getSerializable(PUT_EXTRA_NOTICE);
+        Notice notice = (Notice) bundle.getSerializable(PUT_EXTRA_NOTICE);
 
         TextView noticeTitle = findViewById(R.id.notice_title);
         TextView noticeDate = findViewById(R.id.notice_date);

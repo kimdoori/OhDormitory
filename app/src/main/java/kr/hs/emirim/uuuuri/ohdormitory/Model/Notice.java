@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by doori on 2017-10-01.
  */
-public class NoticeCardViewData implements Serializable {
+public class Notice implements Serializable {
     private String notice_kind;
     private String w_time;
     private String d_time;
@@ -25,7 +25,7 @@ public class NoticeCardViewData implements Serializable {
     // 6 : 화장실
 
     // 외박일지
-    public NoticeCardViewData(String notice_kind, String w_time, String d_time, String notice_title, String sleep_w_time, String sleep_d_time) {
+    public Notice(String notice_kind, String w_time, String d_time, String notice_title, String sleep_w_time, String sleep_d_time) {
         this.notice_kind = notice_kind;
         this.w_time = w_time;
         this.d_time = d_time;
@@ -35,7 +35,7 @@ public class NoticeCardViewData implements Serializable {
     }
 
     //공지사항
-    public NoticeCardViewData(String notice_kind, String w_time, String d_time, String notice_title, String content) {
+    public Notice(String notice_kind, String w_time, String d_time, String notice_title, String content) {
         this.notice_kind = notice_kind;
         this.w_time = w_time;
         this.d_time = d_time;
@@ -44,7 +44,7 @@ public class NoticeCardViewData implements Serializable {
     }
 
     //청소구역
-    public NoticeCardViewData(String notice_kind, String w_time, String d_time, String notice_title, String[] clean) {
+    public Notice(String notice_kind, String w_time, String d_time, String notice_title, String[] clean) {
         this.notice_kind = notice_kind;
         this.w_time = w_time;
         this.d_time = d_time;

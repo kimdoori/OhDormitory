@@ -1,7 +1,9 @@
 package kr.hs.emirim.uuuuri.ohdormitory.Adapter;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -20,9 +22,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import kr.hs.emirim.uuuuri.ohdormitory.Activity.NoticeDetailActivity;
-import kr.hs.emirim.uuuuri.ohdormitory.Model.NoticeCardViewData;
+import kr.hs.emirim.uuuuri.ohdormitory.Model.Notice;
 import kr.hs.emirim.uuuuri.ohdormitory.Model.SleepOut;
 import kr.hs.emirim.uuuuri.ohdormitory.R;
 
@@ -30,18 +33,33 @@ import kr.hs.emirim.uuuuri.ohdormitory.R;
  * Created by doori on 2017-10-01.
  */
 
-public class NoticeCardViewAdapter extends RecyclerView.Adapter<NoticeCardViewAdapter.ViewHolder> {
+public class NoticeListAdapater extends RecyclerView.Adapter<NoticeListAdapater.ViewHolder> {
+    private final String NOTICE_PREFERENCE = "NOTICE PREFERENCE";
     private final String PUT_EXTRA_NOTICE = "NOTICE_ITEM";
-    private ArrayList<NoticeCardViewData> mDataset;
+    private final String BEFORE_PHONE_NUMBER = "BEFORE PHONE NUMBER";
+    private final String BEFORE_SLEEP_TYPE = "BEFORE SLEEP TYPE";
+
+    private final String SLEEP_OUT_ARRAY[] = {"잔류", "금요외박", "토요외박"};
+    private final String FRONT_NUMBER_ARRAY[] = {"010", "02", "070"};
+
+    private ArrayList<Notice> mDataset;
 
     private String mSleepOut;
+    private int mSleepOutPosition;
     private String mFrontNumber;
 
     private FirebaseDatabase mDatabase;
     private DatabaseReference mInputUserRefer;
 
-    private EditText midNumberEt;
-    private EditText rearNumberEt;
+    Spinner mSleepOutSpinner;
+    Spinner mFrontNumberSpinner;
+    private EditText mMidNumberEt;
+    private EditText mRearNumberEt;
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
+
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
@@ -61,13 +79,13 @@ public class NoticeCardViewAdapter extends RecyclerView.Adapter<NoticeCardViewAd
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public NoticeCardViewAdapter(ArrayList<NoticeCardViewData> noticeCardViewDataset) {
+    public NoticeListAdapater(ArrayList<Notice> noticeCardViewDataset) {
         mDataset = noticeCardViewDataset;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public NoticeCardViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public NoticeListAdapater.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //recycler view에 반복될 아이템 레이아웃 연결
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_notice,null);
         return new ViewHolder(v);
@@ -124,13 +142,12 @@ public class NoticeCardViewAdapter extends RecyclerView.Adapter<NoticeCardViewAd
     }
 
     private void showDialog(View view, final String wTime, final String dTime){
-        final String sleepOutArray[] = {"잔류", "금요외박", "토요외박"};
-        final String frontNumberArray[] = {"010", "02", "070"};
 
         mDatabase = FirebaseDatabase.getInstance();
 
         final Dialog mDialog = new Dialog(view.getContext(), R.style.MyDialog);
         mDialog.setContentView(R.layout.dialog_style5);
+        sharedPreferences = view.getContext().getSharedPreferences(NOTICE_PREFERENCE, Context.MODE_PRIVATE);
 
         TextView sleepWTime = mDialog.findViewById(R.id.sleep_w_time);
         TextView sleepDTime = mDialog.findViewById(R.id.sleep_d_time);
@@ -138,76 +155,119 @@ public class NoticeCardViewAdapter extends RecyclerView.Adapter<NoticeCardViewAd
         sleepWTime.setText(wTime);
         sleepDTime.setText(dTime);
 
-        Spinner sleepOutSpinner = mDialog.findViewById(R.id.sleep_out);
-        sleepOutSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mSleepOutSpinner = mDialog.findViewById(R.id.sleep_out);
+        mSleepOutSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
               @Override
               public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                  mSleepOut = sleepOutArray[position];
+                  mSleepOut = SLEEP_OUT_ARRAY[position];
+                  mSleepOutPosition = position;
               }
               @Override
               public void onNothingSelected(AdapterView<?> adapterView) {
-                  mSleepOut = sleepOutArray[0];
+                  mSleepOut = SLEEP_OUT_ARRAY[0];
               }
         });
 
-        Spinner frontNumberSpinner = mDialog.findViewById(R.id.frontNumber);
-        frontNumberSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mFrontNumberSpinner = mDialog.findViewById(R.id.frontNumber);
+        mFrontNumberSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                mFrontNumber = frontNumberArray[position];
+                mFrontNumber = FRONT_NUMBER_ARRAY[position];
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                mFrontNumber = frontNumberArray[0];
+                mFrontNumber = FRONT_NUMBER_ARRAY[0];
             }
         });
-        midNumberEt = mDialog.findViewById(R.id.midNumber);
-        rearNumberEt = mDialog.findViewById(R.id.rearNumber);
 
+        mMidNumberEt = mDialog.findViewById(R.id.midNumber);
+        mRearNumberEt = mDialog.findViewById(R.id.rearNumber);
+
+        setBeforeNumber();
 
         mDialog.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View view) {
                 if (!validateForm())
                     return;
 
-                String phoneNumber = mFrontNumber +"-"+midNumberEt.getText().toString()+"-"+rearNumberEt.getText().toString();
+                final Dialog mCheckDialog = new Dialog(view.getContext(), R.style.MyDialog);
+                mCheckDialog.setContentView(R.layout.dialog_style3);
+                ((TextView)mCheckDialog.findViewById(R.id.message)).setText("외박일지를 제출하시겠습니까?");
+                mCheckDialog.show();
+                mCheckDialog.findViewById(R.id.dialog_button_yes).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String phoneNumber = mFrontNumber +"-"+ mMidNumberEt.getText().toString()+"-"+ mRearNumberEt.getText().toString();
+                        // phoneNumber, dtime, wtime, sleep type
+                        SleepOut sleepOut = new SleepOut(phoneNumber, mSleepOut);
+                        mInputUserRefer = mDatabase.getReference();
+                        mInputUserRefer.child("sleep-out").child(wTime+"-"+dTime)
+                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(sleepOut); // update the firebase database
+                        editor = sharedPreferences.edit();
+                        editor.putString(BEFORE_PHONE_NUMBER, phoneNumber); //First라는 key값으로 infoFirst 데이터를 저장한다.
+                        editor.putInt(BEFORE_SLEEP_TYPE, mSleepOutPosition);
 
-                // phoneNumber, dtime, wtime, sleep type
-                SleepOut sleepOut = new SleepOut(phoneNumber, mSleepOut);
-                mInputUserRefer = mDatabase.getReference();
-                mInputUserRefer.child("sleep-out").child(wTime+"-"+dTime)
-                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(sleepOut); // update the firebase database
+                        editor.commit(); //완료한다.
 
-                mDialog.dismiss();
+                        mCheckDialog.dismiss();
+                        mDialog.dismiss();
+                    }
+                });
+
+                mCheckDialog.findViewById(R.id.dialog_button_no).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mCheckDialog.dismiss();
+                    }
+                });
                 return;
             }
         });
         mDialog.show();
     }
+
     private boolean validateForm() {
         boolean valid = true;
 
-        String email = midNumberEt.getText().toString();
-        if (TextUtils.isEmpty(email)) {
-            midNumberEt.setError("Required.");
+        String midNumber = mMidNumberEt.getText().toString();
+        if ((TextUtils.isEmpty(midNumber))||(Integer.parseInt(midNumber) < 100 || Integer.parseInt(midNumber) >= 10000)) {
+            mMidNumberEt.setError("Required.");
             valid = false;
-        } else {
-            midNumberEt.setError(null);
+        }else{
+            mMidNumberEt.setError(null);
         }
 
-        String password = rearNumberEt.getText().toString();
-        if (TextUtils.isEmpty(password)) {
-            rearNumberEt.setError("Required.");
+        String rearNumber = mRearNumberEt.getText().toString();
+        if ((TextUtils.isEmpty(rearNumber))||(Integer.parseInt(rearNumber) < 1000 ||Integer.parseInt(rearNumber) >= 10000)) {
+            mRearNumberEt.setError("Required.");
             valid = false;
-        } else {
-            rearNumberEt.setError(null);
+        }else {
+            mRearNumberEt.setError(null);
         }
-
 
         return valid;
     }
 
+    //이전에 입력한 외박일지 정보를 가져옴
+    private void setBeforeNumber(){
+        String beforeNumber = sharedPreferences.getString(BEFORE_PHONE_NUMBER, null);
+        if(beforeNumber !=null){
+            StringTokenizer stringTokenizer = new StringTokenizer(beforeNumber, "-", false);
+            String beforeFrontNumber = stringTokenizer.nextToken();
+            String beforeMidNumber = stringTokenizer.nextToken();
+            String beforeRearNumber = stringTokenizer.nextToken();
+
+            for(int i = 0; i< FRONT_NUMBER_ARRAY.length; i++){
+                if(beforeFrontNumber.equals(FRONT_NUMBER_ARRAY[i]))
+                    mFrontNumberSpinner.setSelection(i);
+            }
+            mMidNumberEt.setText(beforeMidNumber);
+            mRearNumberEt.setText(beforeRearNumber);
+        }
+        int beforeType = sharedPreferences.getInt(BEFORE_SLEEP_TYPE,-1);
+        if(beforeType!=-1)
+            mSleepOutSpinner.setSelection(beforeType);
+    }
 }
 

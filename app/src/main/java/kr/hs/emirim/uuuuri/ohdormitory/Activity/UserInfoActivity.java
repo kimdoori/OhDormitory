@@ -16,6 +16,12 @@ public class UserInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
 
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         findViewById(R.id.scoreActivity).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {

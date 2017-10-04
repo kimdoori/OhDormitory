@@ -2,24 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:gravity="center_vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:text=""
-        android:id="@+id/title"
-        android:textSize="20sp"
-        android:textColor="#fff"
-        android:gravity="center_vertical"
-        android:layout_marginLeft="17dp"
-        android:layout_marginRight="17dp"
-        android:layout_width="match_parent"
-        android:layout_height="56dp" />
-
+    android:layout_height="56dp">
     <ImageView
         android:id="@+id/action_settings"
         android:layout_alignParentRight="true"
-        android:background="@mipmap/ic_launcher"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:onClick="settings"/>
+        android:background="@drawable/settings_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:onClick="settings"
+        android:layout_marginRight="10dp"/>
 </RelativeLayout>

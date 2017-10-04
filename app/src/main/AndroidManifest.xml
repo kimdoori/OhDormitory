@@ -34,7 +34,8 @@
         <activity android:name=".Activity.NoticeDetailActivity" />
         <activity android:name=".Activity.ToggleSettingsActivity" />
         <activity android:name=".Activity.ScoreActivity" />
-        <activity android:name=".Activity.UserInfoActivity"></activity>
+        <activity android:name=".Activity.UserInfoActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
