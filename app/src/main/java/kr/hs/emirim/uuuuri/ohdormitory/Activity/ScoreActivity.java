@@ -125,9 +125,9 @@ public class ScoreActivity extends BaseActivity {
                 }
                 mTotalScore = mMinusScore + mPlusScore;
 
-                mPlusText.setText(mPlusScore+" 점");
-                mMinusText.setText(mMinusScore+" 점");
-                mTotalText.setText(mTotalScore+" 점");
+                mPlusText.setText("상점 : "+mPlusScore+" 점");
+                mMinusText.setText("벌점 : "+mMinusScore+" 점");
+                mTotalText.setText("총 "+mTotalScore+" 점");
 
                 mAdapter.notifyDataSetChanged();
                 hideProgressDialog();
