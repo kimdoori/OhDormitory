@@ -17,26 +17,28 @@
         <activity
             android:name=".Activity.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity android:name=".Activity.IntroActivity" >
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".Activity.IntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".Activity.SignInActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize"/>
-
-        <activity android:name=".Activity.QRCamActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".Activity.QRCamActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activity.NoticeDetailActivity" />
         <activity android:name=".Activity.ToggleSettingsActivity" />
         <activity android:name=".Activity.ScoreActivity" />
-        <activity android:name=".Activity.UserInfoActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Activity.UserInfoActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activity.NoticeCleanDetailActivity"></activity>
     </application>
 
 </manifest>

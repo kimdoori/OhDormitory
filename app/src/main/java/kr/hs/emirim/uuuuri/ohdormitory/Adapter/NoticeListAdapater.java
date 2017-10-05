@@ -146,7 +146,7 @@ public class NoticeListAdapater extends RecyclerView.Adapter<NoticeListAdapater.
         mDatabase = FirebaseDatabase.getInstance();
 
         final Dialog mDialog = new Dialog(view.getContext(), R.style.MyDialog);
-        mDialog.setContentView(R.layout.dialog_style5);
+        mDialog.setContentView(R.layout.application_form);
         sharedPreferences = view.getContext().getSharedPreferences(NOTICE_PREFERENCE, Context.MODE_PRIVATE);
 
         TextView sleepWTime = mDialog.findViewById(R.id.sleep_w_time);

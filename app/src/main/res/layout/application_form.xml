@@ -42,12 +42,22 @@
                     android:gravity="center"
                     android:layout_marginLeft="20dp">
                     <TextView
+                        android:id="@+id/sleep_w_time"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:layout_gravity="center_horizontal"
-                        android:textSize="12dp"
-                        android:text="2017-08-17"/>
+                        android:layout_height="wrap_content"
+                        android:text="2017.02.05"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"
+                        />
+                    <TextView
+                        android:id="@+id/sleep_d_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2017.02.05"
+                        />
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
@@ -80,10 +90,11 @@
                     android:gravity="center"
                     android:layout_marginLeft="20dp">
                     <Spinner
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:layout_gravity="center_vertical"></Spinner>
+                    android:id="@+id/sleep_out"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                        android:entries="@array/sleepOut"/>
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
@@ -113,28 +124,30 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="20dp">
                     <Spinner
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"></Spinner>
-                    <EditText
+                        android:id="@+id/frontNumber"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_gravity="center_horizontal"
-                        android:maxLength="4"
-                        android:textSize="12dp"
-                        android:text="8468"/>
+                        android:entries="@array/frontNumber"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="-"/>
                     <EditText
+                        android:id="@+id/midNumber"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_gravity="center_horizontal"
                         android:maxLength="4"
-                        android:textSize="12dp"
-                        android:text="6678"/>
+                        android:hint="0000"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"/>
+                    <EditText
+                        android:id="@+id/rearNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLength="4"
+                        android:hint="0000"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -147,6 +160,7 @@
         android:layout_weight="0.2"
         android:layout_gravity="bottom">
         <Button
+            android:id="@+id/submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#00000000"
