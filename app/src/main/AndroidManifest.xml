@@ -30,7 +30,8 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize"/>
 
-        <activity android:name=".Activity.QRCamActivity" />
+        <activity android:name=".Activity.QRCamActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Activity.NoticeDetailActivity" />
         <activity android:name=".Activity.ToggleSettingsActivity" />
         <activity android:name=".Activity.ScoreActivity" />

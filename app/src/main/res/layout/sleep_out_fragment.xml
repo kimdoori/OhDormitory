@@ -63,6 +63,7 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/camera"
             android:layout_width="85dp"
             android:layout_height="85dp"
             android:background="@drawable/camera"

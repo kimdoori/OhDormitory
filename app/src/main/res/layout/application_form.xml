@@ -1,34 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/tab_background"
-    >
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="200dp"
+    android:background="@drawable/popup_bg"
+    android:layout_marginLeft="30dp"
+    android:layout_marginRight="30dp">
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_weight="1"
         android:orientation="vertical"
-        android:layout_gravity="center_vertical"
-        android:gravity="center_vertical">
+        android:layout_marginTop="20dp">
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="210dp"
-            android:gravity="center_vertical|center_horizontal"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/dialog">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:gravity="center"
+            android:orientation="vertical">
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:background="@drawable/popup_background"
+                        android:padding="7dp"
+                        android:textSize="12dp"
+                        android:textColor="#ffffff"
+                        android:text="날짜"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_marginLeft="20dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="12dp"
+                        android:text="2017-08-17"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_marginTop="10dp"
+                android:weightSum="1">
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
                     <LinearLayout
-                        android:layout_width="100dp"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:gravity="center">
                         <TextView
@@ -39,122 +71,85 @@
                             android:padding="7dp"
                             android:textSize="12dp"
                             android:textColor="#ffffff"
-                            android:text="날짜"/>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="150dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:layout_marginLeft="20dp">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:layout_gravity="center_horizontal"
-                            android:textSize="12dp"
-                            android:text="2017-08-17"/>
+                            android:text="외박"/>
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:weightSum="1">
-                    <LinearLayout
-                        android:layout_width="100dp"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_marginLeft="20dp">
+                    <Spinner
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center">
-                        <LinearLayout
-                            android:layout_width="150dp"
-                            android:layout_height="wrap_content"
-                            android:gravity="center">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:background="@drawable/popup_background"
-                                android:padding="7dp"
-                                android:textSize="12dp"
-                                android:textColor="#ffffff"
-                                android:text="외박"/>
-                        </LinearLayout>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="150dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:layout_marginLeft="20dp">
-                        <Spinner
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:layout_gravity="center_vertical"></Spinner>
-                    </LinearLayout>
+                        android:gravity="center_vertical"
+                        android:layout_gravity="center_vertical"></Spinner>
                 </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp">
-                    <LinearLayout
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:layout_gravity="center_horizontal">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:layout_gravity="center_vertical"
-                            android:background="@drawable/popup_background"
-                            android:padding="7dp"
-                            android:textSize="12dp"
-                            android:textColor="#ffffff"
-                            android:text="보호자 연락처"/>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="150dp"
-                        android:layout_height="match_parent"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="20dp">
-                        <Spinner
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"></Spinner>
-                        <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:layout_gravity="center_horizontal"
-                            android:maxLength="4"
-                            android:textSize="12dp"
-                            android:text="8468"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="-"/>
-                        <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:layout_gravity="center_horizontal"
-                            android:maxLength="4"
-                            android:textSize="12dp"
-                            android:text="6678"/>
-                    </LinearLayout>
+                        android:background="@drawable/popup_background"
+                        android:padding="7dp"
+                        android:textSize="12dp"
+                        android:textColor="#ffffff"
+                        android:text="보호자 연락처"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="20dp">
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"></Spinner>
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center_horizontal"
+                        android:maxLength="4"
+                        android:textSize="12dp"
+                        android:text="8468"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"/>
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center_horizontal"
+                        android:maxLength="4"
+                        android:textSize="12dp"
+                        android:text="6678"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="0.2"
+        android:layout_gravity="bottom">
         <Button
-            android:id="@+id/email_sign_in_button"
-            style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginLeft="110dp"
-            android:layout_marginRight="110dp"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/login"
-            android:text="Log In"
-            android:textColor="#ffffff"
-            android:textStyle="bold" />
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:text="신청하기"/>
     </LinearLayout>
 </LinearLayout>
