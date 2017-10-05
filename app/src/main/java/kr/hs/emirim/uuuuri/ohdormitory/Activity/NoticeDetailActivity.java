@@ -28,7 +28,7 @@ public class NoticeDetailActivity extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(false);
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        View actionbar = inflater.inflate(R.layout.custom_actionbar, null);
+        View actionbar = inflater.inflate(R.layout.custom_actionbar2, null);
 
         actionBar.setCustomView(actionbar);
 
@@ -60,5 +60,12 @@ public class NoticeDetailActivity extends AppCompatActivity {
                 break;
         }
 
+    }
+    public void back(View v){
+        switch (v.getId()){
+            case R.id.back:
+                finish();
+                break;
+        }
     }
 }

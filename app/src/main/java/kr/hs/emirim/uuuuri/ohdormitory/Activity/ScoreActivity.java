@@ -14,7 +14,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 
 import kr.hs.emirim.uuuuri.ohdormitory.Adapter.ScoreListAdapater;
 import kr.hs.emirim.uuuuri.ohdormitory.Model.Score;
@@ -110,24 +109,21 @@ public class ScoreActivity extends BaseActivity {
                 while(uidchildIterator.hasNext()){
                     DataSnapshot timeStamp = uidchildIterator.next();
                     String date = timeStamp.child("date").getValue(String.class);
-                    List<Long> scores = (List<Long>)timeStamp.child("score").getValue();
+                    int type = timeStamp.child("score").getValue(Integer.class);
 
-                    for(int i = 0; i<scores.size(); i++) {
+                    studentScores.add(new StudentScore(date, type));
+                    double score = mScoreHashMap.get(type).getScore();
+                    if(score < 0)
+                        mMinusScore += score;
+                    else
+                        mPlusScore += score;
 
-                        studentScores.add(new StudentScore(date, scores.get(i).intValue()));
-                        double score = mScoreHashMap.get(scores.get(i).intValue()).getScore();
-                        if(score < 0)
-                            mMinusScore += score;
-                        else
-                            mPlusScore += score;
-
-                    }
                 }
                 mTotalScore = mMinusScore + mPlusScore;
 
                 mPlusText.setText("상점 : "+mPlusScore+" 점");
                 mMinusText.setText("벌점 : "+mMinusScore+" 점");
-                mTotalText.setText("총 "+mTotalScore+" 점");
+                mTotalText.setText("총 "+ mTotalScore+" 점");
 
                 mAdapter.notifyDataSetChanged();
                 hideProgressDialog();

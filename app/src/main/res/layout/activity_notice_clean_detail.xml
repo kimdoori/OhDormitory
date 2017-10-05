@@ -32,7 +32,7 @@
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="9"
+                android:layout_weight="1"
                 android:columnCount="1">
                 <Button android:text="청소구역"
                     android:layout_width="match_parent"
@@ -61,34 +61,83 @@
             </GridLayout>
 
             <GridLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/fourth_grid"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:columnCount="1">
-                <Button android:text="호실"
-                    android:background="@drawable/gridlayout_solid2"/>
-                <Button android:text="512호"
-                    android:id="@+id/washRoom"
-                    android:background="@drawable/gridlayout_solid2"/>
-                <Button android:text="513호"
-                    android:id="@+id/laundryRoom"
-                    android:background="@drawable/gridlayout_solid2"/>
-                <Button android:text="514호"
-                    android:id="@+id/showerRoom"
-                    android:background="@drawable/gridlayout_solid2"/>
-                <Button android:text="515호"
-                    android:id="@+id/hallway"
-                    android:background="@drawable/gridlayout_solid2"/>
-                <Button android:text="516호"
-                    android:id="@+id/retiringRoom"
-                    android:background="@drawable/gridlayout_solid2"/>
-                <Button android:text="517호"
-                    android:id="@+id/stairs"
-                    android:background="@drawable/gridlayout_solid2"/>
-                <Button android:text="518호"
-                    android:id="@+id/toilet"
-                    android:background="@drawable/gridlayout_solid2"/>
+                <Button android:text="4층"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/gridlayout_solid"/>
+                <!--<Button-->
+                    <!--android:id="@+id/clean_4_0"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:background="@drawable/gridlayout_solid"/>-->
+                <!--<Button-->
+                    <!--android:id="@+id/clean_4_1"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:background="@drawable/gridlayout_solid"/>-->
+                <!--<Button-->
+                    <!--android:id="@+id/clean_4_2"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:background="@drawable/gridlayout_solid"/>-->
+                <!--<Button-->
+                    <!--android:id="@+id/clean_4_3"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:background="@drawable/gridlayout_solid"/>-->
+                <!--<Button-->
+                    <!--android:id="@+id/clean_4_4"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:background="@drawable/gridlayout_solid"/>-->
+                <!--<Button-->
+                    <!--android:id="@+id/clean_4_5"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:background="@drawable/gridlayout_solid"/>-->
+                <!--<Button-->
+                    <!--android:id="@+id/clean_4_6"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:background="@drawable/gridlayout_solid"/>-->
             </GridLayout>
+            <GridLayout
+                android:id="@+id/fifth_grid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:columnCount="1">
+                <Button android:text="5층"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/gridlayout_solid2"/>
+                <!--<Button-->
+                    <!--android:id="@+id/clean_5_0"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:background="@drawable/gridlayout_solid2"/>-->
+                <!--<Button-->
+                    <!--android:id="@+id/clean_5_1"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:background="@drawable/gridlayout_solid2"/>-->
+                <!--<Button-->
+                    <!--android:id="@+id/clean_5_2"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:background="@drawable/gridlayout_solid2"/>-->
+                <!--<Button-->
+                    <!--android:id="@+id/clean_5_3"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:background="@drawable/gridlayout_solid2"/>-->
+                <!--<Button-->
+                    <!--android:id="@+id/clean_5_4"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:background="@drawable/gridlayout_solid2"/>-->
+                <!--<Button-->
+                    <!--android:id="@+id/clean_5_5"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:background="@drawable/gridlayout_solid2"/>-->
+                <!--<Button-->
+                    <!--android:id="@+id/clean_5_6"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:background="@drawable/gridlayout_solid2"/>-->
+            </GridLayout>
+
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
