@@ -1,6 +1,7 @@
 package kr.hs.emirim.uuuuri.ohdormitory.Fragment;
 
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -65,7 +66,16 @@ public class SleepOutFragment extends Fragment {
                     break;
                 }
                 if(Boolean.parseBoolean(recognize)){
-                    Toast.makeText(getActivity(), "이미 인증되었습니다.", Toast.LENGTH_LONG).show();
+                    final Dialog mDialog = new Dialog(view.getContext(), R.style.MyDialog);
+                    mDialog.setContentView(R.layout.dialog_style2);
+                    ((TextView)mDialog.findViewById(R.id.dialog_text)).setText("이미 인증되었습니다.");
+                    mDialog.findViewById(R.id.dialog_button_yes).setOnClickListener(new View.OnClickListener(){
+                        @Override
+                        public void onClick(View view) {
+                            mDialog.dismiss();
+                        }
+                    });
+                    mDialog.show();
 
                 }else{
                     Intent intent = new Intent(view.getContext(), QRCamActivity.class);

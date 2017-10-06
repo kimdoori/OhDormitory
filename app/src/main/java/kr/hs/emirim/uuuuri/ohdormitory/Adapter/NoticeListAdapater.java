@@ -25,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import kr.hs.emirim.uuuuri.ohdormitory.Activity.NoticeCleanDetailActivity;
 import kr.hs.emirim.uuuuri.ohdormitory.Activity.NoticeDetailActivity;
 import kr.hs.emirim.uuuuri.ohdormitory.Model.Notice;
 import kr.hs.emirim.uuuuri.ohdormitory.Model.SleepOut;
@@ -126,6 +127,11 @@ public class NoticeListAdapater extends RecyclerView.Adapter<NoticeListAdapater.
                     intent.putExtras(bundle);
                     view.getContext().startActivity(intent);
                 }else if(kind.equals("청소구역")){
+                    Intent intent = new Intent(view.getContext(), NoticeCleanDetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(PUT_EXTRA_NOTICE, mDataset.get(position));
+                    intent.putExtras(bundle);
+                    view.getContext().startActivity(intent);
                     // TODO: 2017-10-03 청소구역
                 }
                 else if(kind.equals("외박일지")){
@@ -147,6 +153,8 @@ public class NoticeListAdapater extends RecyclerView.Adapter<NoticeListAdapater.
         mDatabase = FirebaseDatabase.getInstance();
 
         final Dialog mDialog = new Dialog(view.getContext(), R.style.MyDialog);
+        mDialog.setContentView(R.layout.application_form);
+
         mDialog.setContentView(R.layout.dialog_style5);
         sharedPreferences = view.getContext().getSharedPreferences(NOTICE_PREFERENCE, Context.MODE_PRIVATE);
 

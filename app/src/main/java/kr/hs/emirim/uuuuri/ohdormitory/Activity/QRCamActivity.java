@@ -1,10 +1,12 @@
 package kr.hs.emirim.uuuuri.ohdormitory.Activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -40,7 +42,16 @@ public class QRCamActivity extends AppCompatActivity {
             IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
             if (result == null) {
                 // 취소됨
-                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+                final Dialog mDialog = new Dialog(QRCamActivity.this, R.style.MyDialog);
+                mDialog.setContentView(R.layout.dialog_style2);
+                ((TextView)mDialog.findViewById(R.id.dialog_text)).setText("취소되었습니다.");
+                mDialog.findViewById(R.id.dialog_button_yes).setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view) {
+                        mDialog.dismiss();
+                    }
+                });
+                mDialog.show();
             } else {
                 // 스캔된 QRCode --> result.getContents()
                 Log.e("결과",result.getContents());
@@ -70,14 +81,32 @@ public class QRCamActivity extends AppCompatActivity {
                         Map<String, Object> sleepRecognizeUpdates = new HashMap<String, Object>();
                         sleepRecognizeUpdates.put(contents+"/recognize", "true");
                         sleepOutRef.updateChildren(sleepRecognizeUpdates);
-                        Toast.makeText(QRCamActivity.this, "인증되었습니다.", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(QRCamActivity.this, MainActivity.class);
-                        startActivity(intent);
+                        final Dialog mDialog = new Dialog(QRCamActivity.this, R.style.MyDialog);
+                        mDialog.setContentView(R.layout.dialog_style2);
+                        ((TextView)mDialog.findViewById(R.id.dialog_text)).setText("인증되었습니다.");
+                        mDialog.findViewById(R.id.dialog_button_yes).setOnClickListener(new View.OnClickListener(){
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(QRCamActivity.this, MainActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                        mDialog.show();
+
 
                     }else{
-                        Toast.makeText(QRCamActivity.this, "본인의 부모님께 발송된 QR코드로 인증해주세요.", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(QRCamActivity.this, MainActivity.class);
-                        startActivity(intent);
+                        final Dialog mDialog = new Dialog(QRCamActivity.this, R.style.MyDialog);
+                        mDialog.setContentView(R.layout.dialog_style2);
+                        ((TextView)mDialog.findViewById(R.id.dialog_text)).setText("본인의 부모님께 발송된 QR코드로 인증해주세요.");
+                        mDialog.findViewById(R.id.dialog_button_yes).setOnClickListener(new View.OnClickListener(){
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(QRCamActivity.this, MainActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                        mDialog.show();
+
 
                     }
                 }
