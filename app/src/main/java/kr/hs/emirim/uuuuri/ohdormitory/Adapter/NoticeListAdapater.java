@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import kr.hs.emirim.uuuuri.ohdormitory.Activity.NoticeCleanDetailActivity;
 import kr.hs.emirim.uuuuri.ohdormitory.Activity.NoticeDetailActivity;
 import kr.hs.emirim.uuuuri.ohdormitory.Model.Notice;
 import kr.hs.emirim.uuuuri.ohdormitory.Model.SleepOut;
@@ -126,11 +126,7 @@ public class NoticeListAdapater extends RecyclerView.Adapter<NoticeListAdapater.
                     intent.putExtras(bundle);
                     view.getContext().startActivity(intent);
                 }else if(kind.equals("청소구역")){
-                    Intent intent = new Intent(view.getContext(), NoticeCleanDetailActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(PUT_EXTRA_NOTICE, mDataset.get(position));
-                    intent.putExtras(bundle);
-                    view.getContext().startActivity(intent);
+                    // TODO: 2017-10-03 청소구역
                 }
                 else if(kind.equals("외박일지")){
                     showDialog(view, mDataset.get(position).getSleep_w_time(),mDataset.get(position).getSleep_d_time());
@@ -151,7 +147,7 @@ public class NoticeListAdapater extends RecyclerView.Adapter<NoticeListAdapater.
         mDatabase = FirebaseDatabase.getInstance();
 
         final Dialog mDialog = new Dialog(view.getContext(), R.style.MyDialog);
-        mDialog.setContentView(R.layout.application_form);
+        mDialog.setContentView(R.layout.dialog_style5);
         sharedPreferences = view.getContext().getSharedPreferences(NOTICE_PREFERENCE, Context.MODE_PRIVATE);
 
         TextView sleepWTime = mDialog.findViewById(R.id.sleep_w_time);
@@ -162,15 +158,15 @@ public class NoticeListAdapater extends RecyclerView.Adapter<NoticeListAdapater.
 
         mSleepOutSpinner = mDialog.findViewById(R.id.sleep_out);
         mSleepOutSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-              @Override
-              public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                  mSleepOut = SLEEP_OUT_ARRAY[position];
-                  mSleepOutPosition = position;
-              }
-              @Override
-              public void onNothingSelected(AdapterView<?> adapterView) {
-                  mSleepOut = SLEEP_OUT_ARRAY[0];
-              }
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                mSleepOut = SLEEP_OUT_ARRAY[position];
+                mSleepOutPosition = position;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                mSleepOut = SLEEP_OUT_ARRAY[0];
+            }
         });
 
         mFrontNumberSpinner = mDialog.findViewById(R.id.frontNumber);
@@ -205,14 +201,17 @@ public class NoticeListAdapater extends RecyclerView.Adapter<NoticeListAdapater.
                     public void onClick(View view) {
                         String phoneNumber = mFrontNumber +"-"+ mMidNumberEt.getText().toString()+"-"+ mRearNumberEt.getText().toString();
                         // phoneNumber, dtime, wtime, sleep type
-                        SleepOut sleepOut = new SleepOut(phoneNumber, mSleepOut);
+                        SleepOut sleepOut = new SleepOut(phoneNumber, mSleepOut,"false");
                         mInputUserRefer = mDatabase.getReference();
-                        mInputUserRefer.child("sleep-out").child(wTime+"-"+dTime)
+                        Log.e("기간",wTime+"-"+dTime);
+                        String w_Time= wTime.replace(".","-");
+                        String d_Time=dTime.replace(".","-");
+                        mInputUserRefer.child("sleep-out").child(w_Time+"-"+d_Time)
                                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(sleepOut); // update the firebase database
                         editor = sharedPreferences.edit();
                         editor.putString(BEFORE_PHONE_NUMBER, phoneNumber); //First라는 key값으로 infoFirst 데이터를 저장한다.
                         editor.putInt(BEFORE_SLEEP_TYPE, mSleepOutPosition);
-
+                        editor.putString("recognize", "false");
                         editor.commit(); //완료한다.
 
                         mCheckDialog.dismiss();
