@@ -40,15 +40,19 @@ public class QRCamActivity extends AppCompatActivity {
         //  = 0x0000c0de; // Only use bottom 16 bits
         if (requestCode == IntentIntegrator.REQUEST_CODE) {
             IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-            if (result == null) {
+
+            if (result.getContents()==null) {
                 // 취소됨
                 final Dialog mDialog = new Dialog(QRCamActivity.this, R.style.MyDialog);
                 mDialog.setContentView(R.layout.dialog_style2);
-                ((TextView)mDialog.findViewById(R.id.message)).setText("취소되었습니다.");
+                ((TextView)mDialog.findViewById(R.id.dialog_text)).setText("취소되었습니다.");
                 mDialog.findViewById(R.id.dialog_button_yes).setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View view) {
                         mDialog.dismiss();
+
+                        Intent intent = new Intent(view.getContext(), MainActivity.class);
+                        startActivity(intent);
                     }
                 });
                 mDialog.show();
@@ -83,7 +87,7 @@ public class QRCamActivity extends AppCompatActivity {
                         sleepOutRef.updateChildren(sleepRecognizeUpdates);
                         final Dialog mDialog = new Dialog(QRCamActivity.this, R.style.MyDialog);
                         mDialog.setContentView(R.layout.dialog_style2);
-                        ((TextView)mDialog.findViewById(R.id.message)).setText("인증되었습니다.");
+                        ((TextView)mDialog.findViewById(R.id.dialog_text)).setText("인증되었습니다.");
                         mDialog.findViewById(R.id.dialog_button_yes).setOnClickListener(new View.OnClickListener(){
                             @Override
                             public void onClick(View view) {
@@ -97,7 +101,7 @@ public class QRCamActivity extends AppCompatActivity {
                     }else{
                         final Dialog mDialog = new Dialog(QRCamActivity.this, R.style.MyDialog);
                         mDialog.setContentView(R.layout.dialog_style2);
-                        ((TextView)mDialog.findViewById(R.id.message)).setText("본인의 부모님께 발송된 QR코드로 인증해주세요.");
+                        ((TextView)mDialog.findViewById(R.id.dialog_text)).setText("본인의 부모님께 발송된 QR코드로 인증해주세요.");
                         mDialog.findViewById(R.id.dialog_button_yes).setOnClickListener(new View.OnClickListener(){
                             @Override
                             public void onClick(View view) {

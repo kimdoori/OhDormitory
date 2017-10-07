@@ -15,6 +15,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import kr.hs.emirim.uuuuri.ohdormitory.FCM.FirebaseInstanceIDService;
 import kr.hs.emirim.uuuuri.ohdormitory.Fragment.TabPagerAdapter;
 import kr.hs.emirim.uuuuri.ohdormitory.R;
 
@@ -29,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FirebaseInstanceIDService f=new FirebaseInstanceIDService();
+        f.sendRegistrationToServer();
+
+        FirebaseMessaging.getInstance().subscribeToTopic("studentNotice");
 
         // Adding Toolbar to the activity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

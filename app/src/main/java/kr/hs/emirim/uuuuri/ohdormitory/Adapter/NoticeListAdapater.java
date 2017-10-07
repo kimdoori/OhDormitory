@@ -34,7 +34,6 @@ import kr.hs.emirim.uuuuri.ohdormitory.R;
 /**
  * Created by doori on 2017-10-01.
  */
-// TODO: 2017-10-07 외박증 한번만 제출!!
 
 public class NoticeListAdapater extends RecyclerView.Adapter<NoticeListAdapater.ViewHolder> {
     private final String NOTICE_PREFERENCE = "NOTICE PREFERENCE";

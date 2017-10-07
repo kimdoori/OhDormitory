@@ -228,6 +228,7 @@ public class WashTimeFragment extends Fragment implements Day{
         }
     }
 
+    // TODO: 2017-10-07 4층
     //주중 사용자 set
     private void setWeekDayUser() {
         Calendar cal = Calendar.getInstance();
@@ -293,13 +294,14 @@ public class WashTimeFragment extends Fragment implements Day{
                 case SATURDAY:
                 case SUNDAY:
                     timeTypeRef.child("washer_2").child("2").setValue(new User(519));
+
                 default:
                     break;
             }
         }
     }
 
-    // 주중 사용자 외 사용자 set
+    // 주중 사용자 외 사용자 set - firebase listener
     private void setWasherUser(){
         Log.e(TAG, "wash-time/"+nowDate+"/floor_"+mFloor+"/type_"+getTimeType());
 
@@ -317,6 +319,7 @@ public class WashTimeFragment extends Fragment implements Day{
                             washer[i][j] = null;
                             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) washerLinear[i][j].getLayoutParams();
                             params.height = dpToPx(3);
+                            washerLinear[i][j].setLayoutParams(params);
                             washerLinear[i][j].setBackgroundColor(Color.parseColor("#757575"));
                         } else {
                             washer[i][j] = timeType.child(childName + i).child(String.valueOf(j)).getValue(User.class);
@@ -325,6 +328,7 @@ public class WashTimeFragment extends Fragment implements Day{
                             }
                             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) washerLinear[i][j].getLayoutParams();
                             params.height = dpToPx(7);
+                            washerLinear[i][j].setLayoutParams(params);
                             washerLinear[i][j].setBackgroundColor(Color.parseColor("#9eaec5"));
                         }
                     }
