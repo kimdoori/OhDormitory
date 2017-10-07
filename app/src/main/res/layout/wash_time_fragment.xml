@@ -8,318 +8,385 @@ background는 ##757575로-->
     android:background="@drawable/tab_background"
     android:layout_gravity="center_vertical"
     android:gravity="center_vertical">
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_gravity="center_vertical"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"
             android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp">
+            android:layout_marginRight="30dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center_horizontal">
+
                 <LinearLayout
                     android:layout_width="40dp"
-                    android:layout_height="match_parent">
-                </LinearLayout>
+                    android:layout_height="match_parent"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
                     android:gravity="center">
+
                     <TextView
+                        android:id="@+id/firstTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
                         android:layout_gravity="center_horizontal"
                         android:background="@drawable/wash_time_textview_bg"
-                        android:paddingTop="2dp"
+                        android:gravity="center"
                         android:paddingBottom="2dp"
                         android:paddingLeft="4dp"
                         android:paddingRight="4dp"
-                        android:textSize="12dp"
-                        android:text="20:30~21:30"/>
+                        android:paddingTop="2dp"
+                        android:textSize="12sp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
                     android:gravity="center">
+
                     <TextView
+                        android:id="@+id/secondTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
                         android:layout_gravity="center_horizontal"
                         android:background="@drawable/wash_time_textview_bg"
-                        android:paddingTop="2dp"
+                        android:gravity="center"
                         android:paddingBottom="2dp"
                         android:paddingLeft="4dp"
                         android:paddingRight="4dp"
-                        android:textSize="12dp"
-                        android:text="21:30~22:30"/>
+                        android:paddingTop="2dp"
+                        android:textSize="12sp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
                     android:gravity="center">
+
                     <TextView
+                        android:id="@+id/thirdTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
                         android:layout_gravity="center_horizontal"
                         android:background="@drawable/wash_time_textview_bg"
-                        android:paddingTop="2dp"
+                        android:gravity="center"
                         android:paddingBottom="2dp"
                         android:paddingLeft="4dp"
                         android:paddingRight="4dp"
-                        android:textSize="12dp"
-                        android:text="22:30~23:30"/>
+                        android:paddingTop="2dp"
+                        android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
-                android:gravity="center_horizontal|center_vertical"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal|center_vertical">
+
                 <LinearLayout
                     android:layout_width="40dp"
                     android:layout_height="wrap_content">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center|center_horizontal"
                         android:layout_gravity="center_horizontal"
                         android:background="@drawable/wash_time_textview_bg"
-                        android:paddingTop="2dp"
+                        android:gravity="center|center_horizontal"
                         android:paddingBottom="2dp"
                         android:paddingLeft="4dp"
                         android:paddingRight="4dp"
-                        android:textSize="12dp"
-                        android:text="1번"/>
+                        android:paddingTop="2dp"
+                        android:text="1번"
+                        android:textSize="12sp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="7dp"
                     android:layout_height="7dp"
-                    android:background="@drawable/oval"></LinearLayout>
+                    android:background="@drawable/oval"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="horizontal">
+
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:id="@+id/washer_00"
+                        android:layout_width="0dp"
                         android:layout_height="3dp"
                         android:layout_weight="1"
-                        android:background="#757575"></LinearLayout>
+                        android:background="#757575"
+                        android:orientation="horizontal" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="7dp"
                     android:layout_height="7dp"
-                    android:background="@drawable/oval"></LinearLayout>
+                    android:background="@drawable/oval"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_weight="1"
                     android:gravity="center">
+
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:id="@+id/washer_01"
+                        android:layout_width="0dp"
                         android:layout_height="3dp"
                         android:layout_weight="1"
-                        android:background="#757575"></LinearLayout>
+                        android:background="#757575"
+                        android:orientation="horizontal"/>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="7dp"
                     android:layout_height="7dp"
-                    android:background="@drawable/oval"></LinearLayout>
+                    android:background="@drawable/oval"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_weight="1"
                     android:gravity="center">
+
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:id="@+id/washer_02"
+                        android:layout_width="0dp"
                         android:layout_height="3dp"
                         android:layout_weight="1"
-                        android:background="#757575"></LinearLayout>
+                        android:background="#757575"
+                        android:orientation="horizontal"/>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="7dp"
                     android:layout_height="7dp"
-                    android:background="@drawable/oval"></LinearLayout>
+                    android:background="@drawable/oval"/>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
-                android:gravity="center_horizontal|center_vertical"
-                android:layout_marginTop="17dp">
+                android:layout_marginTop="17dp"
+                android:gravity="center_horizontal|center_vertical">
+
                 <LinearLayout
                     android:layout_width="40dp"
                     android:layout_height="wrap_content">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center|center_horizontal"
                         android:layout_gravity="center_horizontal"
                         android:background="@drawable/wash_time_textview_bg"
-                        android:paddingTop="2dp"
+                        android:gravity="center|center_horizontal"
                         android:paddingBottom="2dp"
                         android:paddingLeft="4dp"
                         android:paddingRight="4dp"
-                        android:textSize="12dp"
-                        android:text="2번"/>
+                        android:paddingTop="2dp"
+                        android:text="2번"
+                        android:textSize="12sp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="7dp"
                     android:layout_height="7dp"
-                    android:background="@drawable/oval"></LinearLayout>
+                    android:background="@drawable/oval"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="horizontal">
+
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:id="@+id/washer_10"
+                        android:layout_width="0dp"
                         android:layout_height="3dp"
                         android:layout_weight="1"
-                        android:background="#757575"></LinearLayout>
+                        android:background="#757575"
+                        android:orientation="horizontal" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="7dp"
                     android:layout_height="7dp"
-                    android:background="@drawable/oval"></LinearLayout>
+                    android:background="@drawable/oval"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_weight="1"
                     android:gravity="center">
+
                     <LinearLayout
+                        android:id="@+id/washer_11"
                         android:layout_width="match_parent"
                         android:layout_height="3dp"
                         android:layout_weight="1"
-                        android:background="#757575"></LinearLayout>
+                        android:background="#757575"
+                        android:orientation="horizontal" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="7dp"
                     android:layout_height="7dp"
-                    android:background="@drawable/oval"></LinearLayout>
+                    android:background="@drawable/oval"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_weight="1"
                     android:gravity="center">
+
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:id="@+id/washer_12"
+                        android:layout_width="0dp"
                         android:layout_height="3dp"
                         android:layout_weight="1"
-                        android:background="#757575"></LinearLayout>
+                        android:background="#757575"
+                        android:orientation="horizontal" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="7dp"
                     android:layout_height="7dp"
-                    android:background="@drawable/oval"></LinearLayout>
+                    android:background="@drawable/oval"/>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
-                android:gravity="center_horizontal|center_vertical"
-                android:layout_marginTop="17dp">
+                android:layout_marginTop="17dp"
+                android:gravity="center_horizontal|center_vertical">
+
                 <LinearLayout
                     android:layout_width="40dp"
                     android:layout_height="wrap_content">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center|center_horizontal"
                         android:layout_gravity="center_horizontal"
                         android:background="@drawable/wash_time_textview_bg"
-                        android:paddingTop="2dp"
+                        android:gravity="center|center_horizontal"
                         android:paddingBottom="2dp"
                         android:paddingLeft="4dp"
                         android:paddingRight="4dp"
-                        android:textSize="12dp"
-                        android:text="3번"/>
+                        android:paddingTop="2dp"
+                        android:text="3번"
+                        android:textSize="12sp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="7dp"
                     android:layout_height="7dp"
-                    android:background="@drawable/oval"></LinearLayout>
+                    android:background="@drawable/oval"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="horizontal">
+
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:id="@+id/washer_20"
+                        android:layout_width="0dp"
                         android:layout_height="3dp"
                         android:layout_weight="1"
-                        android:background="#757575"></LinearLayout>
+                        android:background="#757575"
+                        android:orientation="horizontal" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="7dp"
                     android:layout_height="7dp"
-                    android:background="@drawable/oval"></LinearLayout>
+                    android:background="@drawable/oval"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_weight="1"
                     android:gravity="center">
+
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:id="@+id/washer_21"
+                        android:layout_width="0dp"
                         android:layout_height="3dp"
                         android:layout_weight="1"
-                        android:background="#757575"></LinearLayout>
+                        android:background="#757575"
+                        android:orientation="horizontal" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="7dp"
                     android:layout_height="7dp"
-                    android:background="@drawable/oval"></LinearLayout>
+                    android:background="@drawable/oval"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_weight="1"
                     android:gravity="center">
+
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:id="@+id/washer_22"
+                        android:layout_width="0dp"
                         android:layout_height="3dp"
                         android:layout_weight="1"
-                        android:background="#757575"></LinearLayout>
+                        android:background="#757575"
+                        android:orientation="horizontal" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="7dp"
                     android:layout_height="7dp"
-                    android:background="@drawable/oval"></LinearLayout>
+                    android:background="@drawable/oval"/>
             </LinearLayout>
         </LinearLayout>
+
         <Button
-            android:id="@+id/email_sign_in_button"
+            android:id="@+id/application_button"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="45dp"

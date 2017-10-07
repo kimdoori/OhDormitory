@@ -22,7 +22,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:textSize="14dp"
-                android:text="-하시겠습니까" />
+                android:layout_gravity="center"
+                android:gravity="center"
+                />
         </LinearLayout>
 
     </LinearLayout>

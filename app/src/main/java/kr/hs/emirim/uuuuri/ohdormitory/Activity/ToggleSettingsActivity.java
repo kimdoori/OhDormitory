@@ -80,10 +80,17 @@ public class ToggleSettingsActivity extends BaseActivity {
         mSettingsListener = mSettingsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot uid) {
+                boolean clean = true;
+                boolean laundry = true;
+                boolean sleepOut = true;
+                if(uid.child("clean").getValue()!=null)
+                    clean =(boolean) uid.child("clean").getValue();
 
-                boolean clean = (boolean) uid.child("clean").getValue();
-                boolean laundry = (boolean) uid.child("laundry").getValue();
-                boolean sleepOut = (boolean) uid.child("sleep_out").getValue();
+                if(uid.child("laundry").getValue()!= null)
+                       laundry = (boolean)uid.child("laundry").getValue() ;
+
+                if(uid.child("sleep_out").getValue()!= null)
+                    sleepOut = (boolean) uid.child("sleep_out").getValue();
 
                 cleanSwitch.setChecked(clean);
                 laundrySwitch.setChecked(laundry);
@@ -94,7 +101,10 @@ public class ToggleSettingsActivity extends BaseActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                cleanSwitch.setChecked(true);
+                laundrySwitch.setChecked(true);
+                sleepOutSwitch.setChecked(true);
+                hideProgressDialog();
             }
         });
 

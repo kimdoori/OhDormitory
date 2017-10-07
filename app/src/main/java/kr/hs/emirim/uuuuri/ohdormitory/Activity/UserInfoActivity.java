@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import kr.hs.emirim.uuuuri.ohdormitory.R;
 
+// TODO: 2017-10-07 사용자 이름 set
 public class UserInfoActivity extends AppCompatActivity {
 
     @Override

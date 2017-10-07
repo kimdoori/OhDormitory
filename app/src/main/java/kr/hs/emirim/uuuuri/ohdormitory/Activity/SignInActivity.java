@@ -2,6 +2,7 @@ package kr.hs.emirim.uuuuri.ohdormitory.Activity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -23,11 +24,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 import kr.hs.emirim.uuuuri.ohdormitory.Model.User;
 import kr.hs.emirim.uuuuri.ohdormitory.R;
 
 public class SignInActivity extends BaseActivity{
+    private final String USER_INFO_PREF = "User info";
+    private final String OBJECT_USER = "Object user";
 
     private final String TAG = "SIGNINACTIVITY";
     private final String CHECK_HISTORY = "CHECK_HISTORY";
@@ -143,7 +147,12 @@ public class SignInActivity extends BaseActivity{
                             hideProgressDialog();
                             break;
                         case 1: // 승인 완료
-                            signIn(longEmail, password);
+                            String uid = dataSnapshot.child("uid").getValue(String.class);
+                            String name = dataSnapshot.child("name").getValue(String.class);
+                            int allowCode = dataSnapshot.child("allowCode").getValue(Integer.class);
+                            int roomNumber = dataSnapshot.child("roomNumber").getValue(Integer.class);
+                            User user = new User(uid, name, allowCode, roomNumber);
+                            signIn(user, longEmail, password);
                             break;
                     }
                 }
@@ -207,12 +216,10 @@ public class SignInActivity extends BaseActivity{
                 });
     }
 
-    private void signIn(String email, String password){ // sign in method
+    private void signIn(final User user, String email, String password){ // sign in method
         if(password.equals(CHECK_HISTORY)){
             // history sign in
-            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            moveActivity(user);
             return;
         }
 
@@ -223,9 +230,7 @@ public class SignInActivity extends BaseActivity{
                         if (task.isSuccessful()) {
                             // Sign in success, next Activity
                             Log.e(TAG, "signInWithEmail:success");
-                            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                            moveActivity(user);
                         } else {
                             Log.e(TAG, "SignIn:failure", task.getException());
                         }
@@ -332,6 +337,19 @@ public class SignInActivity extends BaseActivity{
                         }
                     }
                 });
+    }
+
+    private void moveActivity(User user){
+        SharedPreferences prefs = getSharedPreferences(USER_INFO_PREF, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(user);
+        editor.putString(OBJECT_USER, json);
+        editor.commit();
+
+        Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
 

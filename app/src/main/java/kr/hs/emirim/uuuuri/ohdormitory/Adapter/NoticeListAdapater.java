@@ -34,6 +34,7 @@ import kr.hs.emirim.uuuuri.ohdormitory.R;
 /**
  * Created by doori on 2017-10-01.
  */
+// TODO: 2017-10-07 외박증 한번만 제출!!
 
 public class NoticeListAdapater extends RecyclerView.Adapter<NoticeListAdapater.ViewHolder> {
     private final String NOTICE_PREFERENCE = "NOTICE PREFERENCE";
@@ -155,7 +156,6 @@ public class NoticeListAdapater extends RecyclerView.Adapter<NoticeListAdapater.
         final Dialog mDialog = new Dialog(view.getContext(), R.style.MyDialog);
         mDialog.setContentView(R.layout.application_form);
 
-        mDialog.setContentView(R.layout.dialog_style5);
         sharedPreferences = view.getContext().getSharedPreferences(NOTICE_PREFERENCE, Context.MODE_PRIVATE);
 
         TextView sleepWTime = mDialog.findViewById(R.id.sleep_w_time);
