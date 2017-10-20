@@ -108,6 +108,8 @@ public class NoticeListAdapater extends RecyclerView.Adapter<NoticeListAdapater.
             holder.cardTypeColor.setBackgroundColor(0xffe36363);
         }
 
+        Log.e("TAG", mDataset.get(position).getW_time()+"/"+mDataset.get(position).getD_time());
+
         holder.mTextView_content.setText(mDataset.get(position).getNotice_title());
         if(mDataset.get(position).getW_time().equals("0") &&mDataset.get(position).getD_time().equals("0") )
             holder.mTextView_time.setText("항시공지");
@@ -132,7 +134,6 @@ public class NoticeListAdapater extends RecyclerView.Adapter<NoticeListAdapater.
                     bundle.putSerializable(PUT_EXTRA_NOTICE, mDataset.get(position));
                     intent.putExtras(bundle);
                     view.getContext().startActivity(intent);
-                    // TODO: 2017-10-03 청소구역
                 }
                 else if(kind.equals("외박일지")){
                     showDialog(view, mDataset.get(position).getSleep_w_time(),mDataset.get(position).getSleep_d_time());
@@ -209,6 +210,7 @@ public class NoticeListAdapater extends RecyclerView.Adapter<NoticeListAdapater.
                         String phoneNumber = mFrontNumber +"-"+ mMidNumberEt.getText().toString()+"-"+ mRearNumberEt.getText().toString();
                         // phoneNumber, dtime, wtime, sleep type
                         SleepOut sleepOut = new SleepOut(phoneNumber, mSleepOut,"false");
+
                         mInputUserRefer = mDatabase.getReference();
                         Log.e("기간",wTime+"-"+dTime);
                         String w_Time= wTime.replace(".","-");
@@ -216,10 +218,13 @@ public class NoticeListAdapater extends RecyclerView.Adapter<NoticeListAdapater.
                         mInputUserRefer.child("sleep-out").child(w_Time+"-"+d_Time)
                                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(sleepOut); // update the firebase database
                         editor = sharedPreferences.edit();
-                        editor.putString(BEFORE_PHONE_NUMBER, phoneNumber); //First라는 key값으로 infoFirst 데이터를 저장한다.
+                        Log.e("TAG", phoneNumber);
+                        if(!phoneNumber.equals("010--"))
+                            editor.putString(BEFORE_PHONE_NUMBER, phoneNumber); //First라는 key값으로 infoFirst 데이터를 저장한다.
                         editor.putInt(BEFORE_SLEEP_TYPE, mSleepOutPosition);
                         editor.putString("recognize", "false");
                         editor.commit(); //완료한다.
+
 
                         mCheckDialog.dismiss();
                         mDialog.dismiss();
@@ -240,6 +245,9 @@ public class NoticeListAdapater extends RecyclerView.Adapter<NoticeListAdapater.
 
     private boolean validateForm() {
         boolean valid = true;
+        if(mSleepOutPosition==0)
+            return valid;
+
 
         String midNumber = mMidNumberEt.getText().toString();
         if ((TextUtils.isEmpty(midNumber))||(Integer.parseInt(midNumber) < 100 || Integer.parseInt(midNumber) >= 10000)) {
@@ -263,7 +271,8 @@ public class NoticeListAdapater extends RecyclerView.Adapter<NoticeListAdapater.
     //이전에 입력한 외박일지 정보를 가져옴
     private void setBeforeNumber(){
         String beforeNumber = sharedPreferences.getString(BEFORE_PHONE_NUMBER, null);
-        if(beforeNumber !=null){
+        Log.e("TAG", beforeNumber.equals("010--")+"");
+        if(beforeNumber !=null && !beforeNumber.equals("010--")){
             StringTokenizer stringTokenizer = new StringTokenizer(beforeNumber, "-", false);
             String beforeFrontNumber = stringTokenizer.nextToken();
             String beforeMidNumber = stringTokenizer.nextToken();

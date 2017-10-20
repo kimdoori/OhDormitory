@@ -41,10 +41,20 @@
                 android:layout_marginTop="30dp"
                 android:src="@drawable/profile" />
             <TextView
+                android:id="@+id/roomNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="한유리"/>
+                android:textSize="12sp"
+                android:textColor="#676767"
+                />
+            <TextView
+                android:id="@+id/userName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="14sp"
+                />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout

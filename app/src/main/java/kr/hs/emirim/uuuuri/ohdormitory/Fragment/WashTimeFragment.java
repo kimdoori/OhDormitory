@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import kr.hs.emirim.uuuuri.ohdormitory.Adapter.NotificationAdapter;
 import kr.hs.emirim.uuuuri.ohdormitory.Model.Day;
 import kr.hs.emirim.uuuuri.ohdormitory.Model.User;
 import kr.hs.emirim.uuuuri.ohdormitory.R;
@@ -38,7 +38,6 @@ import static android.content.Context.MODE_PRIVATE;
  * Created by 유리 on 2017-10-01.
  */
 
-// TODO: 2017-10-07 4층 주중 기존 사용자 set
 // TODO: 2017-10-07 시간 4개 점으로 표현하기,,
 
 public class WashTimeFragment extends Fragment implements Day{
@@ -46,8 +45,16 @@ public class WashTimeFragment extends Fragment implements Day{
     private final String USER_INFO_PREF = "User info";
     private final String OBJECT_USER = "Object user";
 
+    private final String NOTIFICATION_MESSAGE_BEFORE = "빨래 할 시간이에요!";
+    private final String NOTIFICATION_MESSAGE_AFTER = "빨래 꺼낼 시간이에요!";
+
+    SimpleDateFormat dateTimeFormat;
+
     View view;
-    Button mApplyBtn;
+    private LinearLayout mApplyBtn;
+    private TextView mApplyText;
+
+    private NotificationAdapter notificationAdapter;
 
     private FirebaseDatabase mDatabase;
     private DatabaseReference mInputRef;
@@ -80,6 +87,9 @@ public class WashTimeFragment extends Fragment implements Day{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view =inflater.inflate(R.layout.wash_time_fragment, container, false);
 
+        notificationAdapter = new NotificationAdapter(getActivity(), getContext());
+        dateTimeFormat = new  SimpleDateFormat("yyyy-MM-dd HH:mm", java.util.Locale.getDefault());
+
         mDatabase = FirebaseDatabase.getInstance();
         mRoomNumber = new int[]{401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418,
                 501, 502, 503, 504, 505, 506, 507, 508, 509, 510, 511, 512, 513, 514, 515, 516, 517, 518, 519};
@@ -91,6 +101,7 @@ public class WashTimeFragment extends Fragment implements Day{
         setWasherUser();
 
         mApplyBtn =  view.findViewById(R.id.application_button);
+        mApplyText = view.findViewById(R.id.application_text);
 
         if(isPossibleTime)
             mApplyBtn.setVisibility(View.VISIBLE);
@@ -104,6 +115,7 @@ public class WashTimeFragment extends Fragment implements Day{
                 applyDialog();
             }
         });
+
         return view;
     }
 
@@ -129,13 +141,11 @@ public class WashTimeFragment extends Fragment implements Day{
 
     // 현재 사용자 객체 get
     private void getUserInfo(){
-
         SharedPreferences prefs = this.getActivity().getSharedPreferences(USER_INFO_PREF, MODE_PRIVATE);
         Gson gson = new Gson();
         String json = prefs.getString(OBJECT_USER, "");
         mUser = gson.fromJson(json, User.class);
         mFloor = mRoomNumber[mUser.getRoomNumber()]/100;
-
     }
 
     // set the textview
@@ -182,8 +192,6 @@ public class WashTimeFragment extends Fragment implements Day{
         int week = cal.get(Calendar.DAY_OF_WEEK);
         nowDate = cal.get(Calendar.YEAR)+"-"+ (cal.get(Calendar.MONTH) + 1)+"-"+cal.get(Calendar.DAY_OF_MONTH);
 
-        SimpleDateFormat dateTimeFormat = new  SimpleDateFormat("yyyy-MM-dd HH:mm", java.util.Locale.getDefault());
-
         Date firstStartTime = null;
         Date firstEndTime = null;
         Date secondStartTime = null;
@@ -194,12 +202,12 @@ public class WashTimeFragment extends Fragment implements Day{
         Date today = new Date(System.currentTimeMillis());
 
         try {
-            firstStartTime = dateTimeFormat.parse(nowDate+" 06:00");
-            firstEndTime = dateTimeFormat.parse(nowDate + " 09:00");
-            secondStartTime = dateTimeFormat.parse(nowDate+" 09:00");
-            secondEndTime = dateTimeFormat.parse(nowDate + " 12:00");
-            thirdStartTime = dateTimeFormat.parse(nowDate+" 20:00");
-            thirdEndTime = dateTimeFormat.parse(nowDate + " 23:30");
+            firstStartTime = dateTimeFormat.parse(nowDate+" 05:30");
+            firstEndTime = dateTimeFormat.parse(nowDate + " 08:00");
+            secondStartTime = dateTimeFormat.parse(nowDate+" 08:00");
+            secondEndTime = dateTimeFormat.parse(nowDate + " 11:30");
+            thirdStartTime = dateTimeFormat.parse(nowDate+" 19:30");
+            thirdEndTime = dateTimeFormat.parse(nowDate + " 23:00");
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -228,7 +236,6 @@ public class WashTimeFragment extends Fragment implements Day{
         }
     }
 
-    // TODO: 2017-10-07 4층
     //주중 사용자 set
     private void setWeekDayUser() {
         Calendar cal = Calendar.getInstance();
@@ -240,12 +247,39 @@ public class WashTimeFragment extends Fragment implements Day{
         if(mFloor == 4){
             switch(week){
                 case MONDAY:
+                    timeTypeRef.child("washer_0").child("1").setValue(new User(401));
+                    timeTypeRef.child("washer_0").child("2").setValue(new User(404));
+
+                    timeTypeRef.child("washer_1").child("1").setValue(new User(402));
+
+                    timeTypeRef.child("washer_2").child("1").setValue(new User(403));
+                    timeTypeRef.child("washer_2").child("2").setValue(new User(414));
                     break;
                 case TUESDAY:
+                    timeTypeRef.child("washer_0").child("1").setValue(new User(405));
+                    timeTypeRef.child("washer_0").child("2").setValue(new User(408));
+
+                    timeTypeRef.child("washer_1").child("1").setValue(new User(406));
+
+                    timeTypeRef.child("washer_2").child("1").setValue(new User(407));
+                    timeTypeRef.child("washer_2").child("2").setValue(new User(415));
                     break;
                 case WEDNESDAY:
+                    timeTypeRef.child("washer_0").child("1").setValue(new User(409));
+                    timeTypeRef.child("washer_0").child("2").setValue(new User(412));
+
+                    timeTypeRef.child("washer_1").child("1").setValue(new User(410));
+
+                    timeTypeRef.child("washer_2").child("1").setValue(new User(411));
+                    timeTypeRef.child("washer_2").child("2").setValue(new User(416));
                     break;
                 case THURSDAY:
+                    timeTypeRef.child("washer_0").child("1").setValue(new User(413));
+
+                    timeTypeRef.child("washer_1").child("2").setValue(new User(417));
+
+                    timeTypeRef.child("washer_2").child("2").setValue(new User(418));
+
                     break;
                 case SATURDAY:
                 case SUNDAY:
@@ -293,8 +327,6 @@ public class WashTimeFragment extends Fragment implements Day{
                 case FRIDAY:
                 case SATURDAY:
                 case SUNDAY:
-                    timeTypeRef.child("washer_2").child("2").setValue(new User(519));
-
                 default:
                     break;
             }
@@ -304,9 +336,7 @@ public class WashTimeFragment extends Fragment implements Day{
     // 주중 사용자 외 사용자 set - firebase listener
     private void setWasherUser(){
         Log.e(TAG, "wash-time/"+nowDate+"/floor_"+mFloor+"/type_"+getTimeType());
-
         DatabaseReference mWasherRef = mDatabase.getReference("wash-time/" + nowDate + "/floor_" + mFloor + "/type_" + getTimeType());
-
         ValueEventListener washListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot timeType) {
@@ -324,7 +354,7 @@ public class WashTimeFragment extends Fragment implements Day{
                         } else {
                             washer[i][j] = timeType.child(childName + i).child(String.valueOf(j)).getValue(User.class);
                             if(washer[i][j].toString().equals(mUser.toString())&&isPossibleTime==true) {
-                                mApplyBtn.setText("취  소");
+                                mApplyText.setText("취  소");
                             }
                             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) washerLinear[i][j].getLayoutParams();
                             params.height = dpToPx(7);
@@ -371,10 +401,9 @@ public class WashTimeFragment extends Fragment implements Day{
                 dialog.findViewById(R.id.dialog_button_yes).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        // TODO: 2017-10-07 doing
                         mCancelRef = mDatabase.getReference(finalAddress);
                         mCancelRef.setValue(null);
-                        mApplyBtn.setText("신  청");
+                        mApplyText.setText("신  청");
                         dialog.dismiss();
                     }
                 });
@@ -403,7 +432,10 @@ public class WashTimeFragment extends Fragment implements Day{
                         mInputRef.child("wash-time").child(nowDate).child("floor_"+mFloor)
                                 .child("type_"+getTimeType()).child("washer_"+finalWasherType)
                                 .child(String.valueOf(finalWashTime)).setValue(mUser);
+
+                        setAlarm();
                         dialog.dismiss();
+
                     }
                 });
 
@@ -429,6 +461,23 @@ public class WashTimeFragment extends Fragment implements Day{
 
     }
 
+    private void setAlarm() {
+        String alarmTime[] = mTimes.get(washTime).split("~");
+
+        Date beforeTime = null;
+        Date afterTime = null;
+        try {
+            beforeTime = dateTimeFormat.parse(nowDate+" "+alarmTime[0]);
+            afterTime = dateTimeFormat.parse(nowDate+" "+alarmTime[1]);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        notificationAdapter.setNotification(NOTIFICATION_MESSAGE_BEFORE, beforeTime);
+        notificationAdapter.setNotification(NOTIFICATION_MESSAGE_AFTER, afterTime);
+    }
+
     // 이전에 신청했는지 check
     private String checkApply() {
 
@@ -449,18 +498,37 @@ public class WashTimeFragment extends Fragment implements Day{
     }
 
     // 가능한 세탁기 탐색
-    private void searchPossibleWasher() {
+    private boolean searchPossibleWasher() {
+        // 현재시간을 msec 으로 구한다.
+        long now = System.currentTimeMillis();
+        // 현재시간을 date 변수에 저장한다.
 
-        for(int i = 0; i<washer.length; i++){
+        Date date = new Date(now);
+        Log.e(TAG, date.getTime()+"/"+Long.valueOf(date.getTime()).getClass().getName());
+        SimpleDateFormat sdfNow = new SimpleDateFormat("HH");
+        int time = Integer.parseInt(sdfNow.format(new Date(System.currentTimeMillis())));
+
+        int start = 0;
+        if(time == 6 || time == 9 || time == 20)
+            start = 1;
+        else if(time == 7 || time == 10 || time == 21)
+            start = 3;
+        else if(time == 8 || time == 11 || time == 22)
+            start = 3;
+
+
+        for(int i = start; i<washer.length; i++){
             for(int j = 0; j<washer.length; j++){
                 if(washer[j][i]==null){
                     washTime = i;
                     washerType = j;
-                    return;
+                    return true;
                 }
             }
         }
-
+        washTime = -1;
+        washerType = -1;
+        return false;
     }
 
     // 사용자 show dialog

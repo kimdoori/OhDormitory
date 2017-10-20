@@ -56,7 +56,6 @@ public class NoticeCleanDetailActivity extends AppCompatActivity {
             button.setId(FOURTH_ID++);
             button.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             button.setBackgroundResource(R.drawable.gridlayout_solid);
-            // TODO: 2017-10-05 Set text
             button.setText(room[i]);
             fourthGrid.addView(button);
             fourthFloor.add(button);
@@ -70,7 +69,6 @@ public class NoticeCleanDetailActivity extends AppCompatActivity {
             button.setId(FIFTH_ID++);
             button.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             button.setBackgroundResource(R.drawable.gridlayout_solid2);
-            // TODO: 2017-10-05 Set text
             button.setText(room[i+CLEAN_AREA_SIZE]);
             fifthGrid.addView(button);
             fifthFloor.add(button);

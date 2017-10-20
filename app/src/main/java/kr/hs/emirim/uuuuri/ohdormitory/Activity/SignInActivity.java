@@ -229,10 +229,18 @@ public class SignInActivity extends BaseActivity{
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, next Activity
+
                             Log.e(TAG, "signInWithEmail:success");
                             moveActivity(user);
                         } else {
                             Log.e(TAG, "SignIn:failure", task.getException());
+                            try {
+                                throw task.getException();
+                            } catch (FirebaseAuthInvalidCredentialsException e) {
+                                showDialog("비밀번호를 확인하세요.");
+                            } catch (Exception e) {
+                                showDialog("로그인에 실패하였습니다.");
+                            }
                         }
                         hideProgressDialog();
                     }
