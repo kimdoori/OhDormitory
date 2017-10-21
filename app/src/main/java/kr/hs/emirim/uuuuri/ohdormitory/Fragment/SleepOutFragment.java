@@ -30,6 +30,7 @@ import static kr.hs.emirim.uuuuri.ohdormitory.R.id.sleep_out_date;
  * Created by 유리 on 2017-10-01.
  */
 
+// TODO: 2017-10-21  외박일지 신청안함 메세지 고정
 public class SleepOutFragment extends Fragment {
 
     private FirebaseDatabase mDatabase;

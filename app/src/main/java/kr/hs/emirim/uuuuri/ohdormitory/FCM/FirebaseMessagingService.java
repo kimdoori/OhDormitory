@@ -17,6 +17,7 @@ import kr.hs.emirim.uuuuri.ohdormitory.Activity.MainActivity;
 import kr.hs.emirim.uuuuri.ohdormitory.R;
 
 
+// TODO: 2017-10-21 메세지 안 뜨는 것 버그 고치기
 public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
     private static final String TAG = "FirebaseMsgService";
 
