@@ -33,10 +33,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        FirebaseMessaging.getInstance().subscribeToTopic("studentNotice");
+
+
         FirebaseInstanceIDService f=new FirebaseInstanceIDService();
         f.sendRegistrationToServer();
 
-        FirebaseMessaging.getInstance().subscribeToTopic("studentNotice");
 
         // Adding Toolbar to the activity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
