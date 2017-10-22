@@ -83,7 +83,7 @@ public class SleepOutFragment extends Fragment {
                         DataSnapshot sleepOutMember=sleepOutStudentMember.next();
                         String myId=FirebaseAuth.getInstance().getCurrentUser().getUid();
                         String student=sleepOutMember.getKey();
-                        if(student.equals("send")) break;
+                        if(student.equals("send")) continue;
                         //외박신청안함
                         if(!myId.equals(student)){
                             mTextDate.setText("");
