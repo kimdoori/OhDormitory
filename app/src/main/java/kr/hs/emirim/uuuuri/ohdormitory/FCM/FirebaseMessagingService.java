@@ -15,8 +15,7 @@ import android.util.Log;
 import com.google.firebase.messaging.RemoteMessage;
 
 import kr.hs.emirim.uuuuri.ohdormitory.Activity.MainActivity;
-
-import static kr.hs.emirim.uuuuri.ohdormitory.R.mipmap.ic_launcher;
+import kr.hs.emirim.uuuuri.ohdormitory.R;
 
 
 // TODO: 2017-10-21 메세지 안 뜨는 것 버그 고치기
@@ -33,10 +32,6 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
     private void sendPushNotification(String title, String body) {
 
-
-
-
-
         Log.e("received message : " , title);
         Log.e("received message : " , body);
 
@@ -50,7 +45,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                 .setContentText(body)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent)
-                .setSmallIcon(ic_launcher);
+                .setSmallIcon(R.drawable.notification);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
