@@ -74,6 +74,7 @@ public class SleepOutFragment extends Fragment {
                 String recognize="";
                 String date="";
                 String patentNumber="";
+                int cnt=0;
                 boolean sleepOutConfirm=true;
                 while(childIterator.hasNext()) {
                     DataSnapshot sleepOutDate=childIterator.next();
@@ -84,6 +85,11 @@ public class SleepOutFragment extends Fragment {
                         String myId=FirebaseAuth.getInstance().getCurrentUser().getUid();
                         String student=sleepOutMember.getKey();
                         if(student.equals("send")) continue;
+                        Log.e("key",student);
+                        Log.e("my",myId);
+
+                        Log.e("confirm", String.valueOf(sleepOutConfirm));
+
                         //외박신청안함
                         if(!myId.equals(student)){
                             mTextDate.setText("");
@@ -95,6 +101,7 @@ public class SleepOutFragment extends Fragment {
                             continue;
                         }
                         sleepOutConfirm=true;
+                        cnt++;
 
                         recognize = sleepOutMember.child("recognize").getValue(String.class);
                         Log.e("레코그나이즈",recognize);
@@ -104,7 +111,11 @@ public class SleepOutFragment extends Fragment {
                         Log.e("부모님 번호",patentNumber);
                         break;
                     }
+
+                    if(cnt>=1) break;
                 }
+
+                Log.e("sadladlald", String.valueOf(sleepOutConfirm));
 
                 if(Boolean.parseBoolean(recognize) && sleepOutConfirm){//외박신청했고 인증했을 경우
                     Log.e("외박","인증했습니다.");

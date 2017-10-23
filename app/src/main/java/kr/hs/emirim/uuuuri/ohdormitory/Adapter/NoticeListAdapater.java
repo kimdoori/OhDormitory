@@ -271,8 +271,10 @@ public class NoticeListAdapater extends RecyclerView.Adapter<NoticeListAdapater.
     //이전에 입력한 외박일지 정보를 가져옴
     private void setBeforeNumber(){
         String beforeNumber = sharedPreferences.getString(BEFORE_PHONE_NUMBER, null);
-        Log.e("TAG", beforeNumber.equals("010--")+"");
-        if(beforeNumber !=null && !beforeNumber.equals("010--")){
+//        Log.e("TAG", beforeNumber.equals("010--")+"");
+        if(beforeNumber !=null){
+            if(beforeNumber.equals("010--")){
+
             StringTokenizer stringTokenizer = new StringTokenizer(beforeNumber, "-", false);
             String beforeFrontNumber = stringTokenizer.nextToken();
             String beforeMidNumber = stringTokenizer.nextToken();
@@ -285,6 +287,7 @@ public class NoticeListAdapater extends RecyclerView.Adapter<NoticeListAdapater.
             mMidNumberEt.setText(beforeMidNumber);
             mRearNumberEt.setText(beforeRearNumber);
         }
+            }
         int beforeType = sharedPreferences.getInt(BEFORE_SLEEP_TYPE,-1);
         if(beforeType!=-1)
             mSleepOutSpinner.setSelection(beforeType);
