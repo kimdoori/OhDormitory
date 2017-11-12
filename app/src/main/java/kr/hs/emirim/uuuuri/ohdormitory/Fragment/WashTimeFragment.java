@@ -99,6 +99,7 @@ public class WashTimeFragment extends Fragment implements Day{
 
 
         getUserInfo(); // mUser 할당
+
         setWashingTime();
         setWeekDayUser();
         setWasherUser();
@@ -202,8 +203,17 @@ public class WashTimeFragment extends Fragment implements Day{
         Date thirdStartTime = null;
         Date thirdEndTime = null;
 
+// TODO: 2017-10-22 : TEST CODE
+//        Date today = new Date(System.currentTimeMillis());
         Date today = new Date(System.currentTimeMillis());
-
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(today);
+        calendar.set(Calendar.MILLISECOND, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.HOUR, 20);
+        today =  calendar.getTime();
+        Log.e("TODAY", String.valueOf(today));
         try {
             firstStartTime = dateTimeFormat.parse(nowDate+" 05:30");
             firstEndTime = dateTimeFormat.parse(nowDate + " 08:00");
@@ -216,27 +226,29 @@ public class WashTimeFragment extends Fragment implements Day{
             e.printStackTrace();
         }
 
-        if(week == SUNDAY || week == SATURDAY){ // 1 ~ 7 일요일 ~ 토요일
-            if(today.after(firstStartTime) && today.before(firstEndTime)){
-                return 0;
-            }
-            else if(today.after(secondStartTime) && today.before(secondEndTime)){
-                return 1;
-            }else if(today.after(thirdStartTime) && today.before(thirdEndTime)){
-                return 2;
-            }else {
-                isPossibleTime = false;
-                return 2;
-            }
-        }else{
-
-            if(today.after(thirdStartTime)&&today.before(thirdEndTime)){
-                return 2;
-            }else{
-                isPossibleTime = false;
-                return 2;
-            }
-        }
+        return 2;
+        //// TODO: 2017-10-23  TEST [끝나고 주석 지우셈]
+//        if(week == SUNDAY || week == SATURDAY){ // 1 ~ 7 일요일 ~ 토요일
+//            if(today.after(firstStartTime) && today.before(firstEndTime)){
+//                return 0;
+//            }
+//            else if(today.after(secondStartTime) && today.before(secondEndTime)){
+//                return 1;
+//            }else if(today.after(thirdStartTime) && today.before(thirdEndTime)){
+//                return 2;
+//            }else {
+//                isPossibleTime = false;
+//                return 2;
+//            }
+//        }else{
+//
+//            if(today.after(thirdStartTime)&&today.before(thirdEndTime)){
+//                return 2;
+//            }else{
+//                isPossibleTime = false;
+//                return 2;
+//            }
+//        }
     }
 
     //주중 사용자 set

@@ -87,11 +87,70 @@ public class ScoreActivity extends BaseActivity {
     }
 
     private void initScore(){
+        /*
+                    var detailMapType = [ "타호실 무단 취침", "취침시간 소란","무단외출", "무단입실", "무단외박",
+            "외부인 무단 출입", "사감통제 불이행", "태도 불손 및 불량", "언어폭력 또는 따돌림", "무단지각",
+            "기숙사내 각종 소란 행위", "허가되지 않은 전열⸱전자기기 사용", "불건전 물품 반입", "시설물 고의 파손",
+            "타호실 무단 출입", "당번 활동 불량", "외부 음식물 반입", "호실원에게 피해", "인사예절 불량", "선⸱후배 질서 문란",
+            "복도 ⸱ 호실에서 쓰레기 투기", "창밖으로 쓰레기 투척", "개인쓰레기 공동구역에 무단 투기", "중앙통로 침입",
+
+            "점호 불참 및 점호 시 태도 불량", "취침시간 소등위반", "공동구역 사용시간 위반", "기숙사내 실내화 미착용",
+            "복장 및 두발 불량", "교문 밖 출입 시 용의 불량", "개인위생 불결한 자", "개인 세탁물 및 소지품 관리 불량",
+            "호실 청소상태 불량", "외박증 미인증", "퇴실시간 위반", "아침점호 후 재입실", "공동구역 모범 청소", "호실청소", "기타 가산점", "층장 활동", "기숙사 행사 도움"];
+            var typeMappingScore = [-5, -5, -5, -5, -5,
+             -5, -5, -5, -5, -3,
+             -3, -3, -3, -3,
+             -2, -2, -2, -2, -2, -2,
+             -2, -2, -2, -2,
+             -1, -1, -1, -1,
+             -1, -1, -1, -1,
+             -1, -1, -1, -1, 0.5, 0.5, 0.5, 1, 1
+            ];
+
+        * */
         mScoreHashMap = new HashMap<>();
-        mScoreHashMap.put(0, new Score("청소", 0.5));
-        mScoreHashMap.put(1, new Score("타호실 무단 취침", -5.0));
-        mScoreHashMap.put(2, new Score("무단 귀가", -5.0));
-        mScoreHashMap.put(3, new Score("무단 외출", -5.0));
+        mScoreHashMap.put(0, new Score("타호실 무단 취침", -5.0));
+        mScoreHashMap.put(1, new Score("취침시간 소란", -5.0));
+        mScoreHashMap.put(2, new Score("무단외출", -5.0));
+        mScoreHashMap.put(3, new Score("무단 입실", -5.0));
+        mScoreHashMap.put(4, new Score("무단 외박", -5.0));
+        mScoreHashMap.put(5, new Score("외부인 무단 출입", -5.0));
+        mScoreHashMap.put(6, new Score("사감통제 불이행", -5.0));
+        mScoreHashMap.put(7, new Score("태도 불손 및 불량", -5.0));
+        mScoreHashMap.put(8, new Score("언어폭력 또는 따돌림", -5.0));
+        mScoreHashMap.put(9, new Score("무단 지각", -3.0 ));
+        mScoreHashMap.put(10, new Score("기숙사내 각종 소란 행위", -3.0));
+        mScoreHashMap.put(11, new Score("허가되지 않은 전열⸱전자기기 사용", -3.0));
+        mScoreHashMap.put(12, new Score("불건전 물품 반입", -3.0));
+        mScoreHashMap.put(13, new Score("시설물 고의 파손", -3.0));
+        mScoreHashMap.put(14, new Score("타호실 무단 출입", -2.0));
+        mScoreHashMap.put(15, new Score("당번 활동 불량", -2.0));
+        mScoreHashMap.put(16, new Score("외부 음식물 반입", -2.0));
+        mScoreHashMap.put(17, new Score("호실원에게 피해", -2.0));
+        mScoreHashMap.put(18, new Score("인사예절 불량", -2.0));
+        mScoreHashMap.put(19, new Score("선⸱후배 질서 문란", -2.0));
+        mScoreHashMap.put(20, new Score("복도⸱호실에서 쓰레기 투기", -2.0));
+        mScoreHashMap.put(21, new Score("창밖으로 쓰레기 투척", -2.0));
+        mScoreHashMap.put(22, new Score("개인쓰레기 공동구역에 무단 투기", -2.0));
+        mScoreHashMap.put(23, new Score("중앙통로 침입", -2.0));
+        mScoreHashMap.put(24, new Score("점호 불참 및 점호 시 태도 불량", -1.0));
+        mScoreHashMap.put(25, new Score("취침시간 소등위반", -1.0));
+        mScoreHashMap.put(26, new Score("공동구역 사용시간 위반", -1.0));
+        mScoreHashMap.put(27, new Score("기숙사내 실내화 미착용", -1.0));
+        mScoreHashMap.put(28, new Score("복장 및 두발 불량", -1.0));
+        mScoreHashMap.put(29, new Score("교문 밖 출입 시 용의 불량", -1.0));
+        mScoreHashMap.put(30, new Score("개인위생 불결", -1.0));
+        mScoreHashMap.put(31, new Score("개인 세탁물 및 소지품 관리 불량", -1.0));
+        mScoreHashMap.put(32, new Score("호실 청소상태 불량", -1.0));
+        mScoreHashMap.put(33, new Score("외박증 미인증", -1.0));
+        mScoreHashMap.put(34, new Score("퇴실시간 위반", -1.0));
+        mScoreHashMap.put(35, new Score("아침점호 후 재입실", -1.0));
+        mScoreHashMap.put(36, new Score("공동구역 모범 청소", 0.5));
+        mScoreHashMap.put(37, new Score("호실청소", 0.5));
+        mScoreHashMap.put(38, new Score("기타 가산점", 0.5));
+        mScoreHashMap.put(39, new Score("층장 활동", 1.0));
+        mScoreHashMap.put(40, new Score("기숙사 행사 도움", 1.0));
+
     }
     private void readScore(){
         showProgressDialog();

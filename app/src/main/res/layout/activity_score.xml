@@ -40,6 +40,12 @@
                         android:textSize="16dp"
                         />
             </LinearLayout>
+            <TextView
+                android:id="@+id/guideMessage"
+                android:visibility="invisible"
+                android:text="등록된 기록이 없습니다."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

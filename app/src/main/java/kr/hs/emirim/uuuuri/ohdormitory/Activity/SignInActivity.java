@@ -282,6 +282,7 @@ public class SignInActivity extends BaseActivity{
                     nameEt.setError("Required.");
                     return;
                 }
+                Log.e("RoomNumber", String.valueOf(mRoomNumber));
                 User user = new User(getUid(), name, 0, mRoomNumber);
                 mInputUserRefer = mDatabase.getReference();
                 mInputUserRefer.child("user").child(email).setValue(user); // update the firebase database
