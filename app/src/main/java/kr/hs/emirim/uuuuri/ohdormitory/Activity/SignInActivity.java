@@ -134,6 +134,11 @@ public class SignInActivity extends BaseActivity{
                     createAccount(email, password);
                 }else{
                     switch (value){
+                        case -3:
+                            Log.e(TAG, "value = -3");
+                            error = "계정이 삭제 되었습니다. 다시 신청하세요.";
+                            dialogAndInputInfo(error, email, password, dataSnapshot.child("roomNumber").getValue(Integer.class), dataSnapshot.child("name").getValue(String.class));
+                            break;
                         case -2: // 권한 거절
                             error = "권한을 거절당하셨습니다.\n입력하신 정보를 확인해주세요.";
                             dialogAndInputInfo(error, email, password, dataSnapshot.child("roomNumber").getValue(Integer.class), dataSnapshot.child("name").getValue(String.class));
