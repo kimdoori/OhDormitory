@@ -3,6 +3,7 @@ package kr.hs.emirim.uuuuri.ohdormitory.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -36,6 +37,7 @@ public class ScoreActivity extends BaseActivity {
     private double mPlusScore;
     private double mTotalScore;
 
+    private TextView mGuideText;
     private TextView mMinusText;
     private TextView mPlusText;
     private TextView mTotalText;
@@ -46,7 +48,7 @@ public class ScoreActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score);
-        initScore();
+        initScoreMap();
         mDatabase = FirebaseDatabase.getInstance();
 
         mRecyclerView = (RecyclerView)findViewById(R.id.recycler);
@@ -64,6 +66,7 @@ public class ScoreActivity extends BaseActivity {
         mAdapter = new ScoreListAdapater(studentScores, mScoreHashMap);
         mRecyclerView.setAdapter(mAdapter);
 
+        mGuideText = findViewById(R.id.guideMessage);
         mPlusText = findViewById(R.id.plus);
         mMinusText = findViewById(R.id.minus);
         mTotalText = findViewById(R.id.total);
@@ -86,28 +89,7 @@ public class ScoreActivity extends BaseActivity {
         }
     }
 
-    private void initScore(){
-        /*
-                    var detailMapType = [ "타호실 무단 취침", "취침시간 소란","무단외출", "무단입실", "무단외박",
-            "외부인 무단 출입", "사감통제 불이행", "태도 불손 및 불량", "언어폭력 또는 따돌림", "무단지각",
-            "기숙사내 각종 소란 행위", "허가되지 않은 전열⸱전자기기 사용", "불건전 물품 반입", "시설물 고의 파손",
-            "타호실 무단 출입", "당번 활동 불량", "외부 음식물 반입", "호실원에게 피해", "인사예절 불량", "선⸱후배 질서 문란",
-            "복도 ⸱ 호실에서 쓰레기 투기", "창밖으로 쓰레기 투척", "개인쓰레기 공동구역에 무단 투기", "중앙통로 침입",
-
-            "점호 불참 및 점호 시 태도 불량", "취침시간 소등위반", "공동구역 사용시간 위반", "기숙사내 실내화 미착용",
-            "복장 및 두발 불량", "교문 밖 출입 시 용의 불량", "개인위생 불결한 자", "개인 세탁물 및 소지품 관리 불량",
-            "호실 청소상태 불량", "외박증 미인증", "퇴실시간 위반", "아침점호 후 재입실", "공동구역 모범 청소", "호실청소", "기타 가산점", "층장 활동", "기숙사 행사 도움"];
-            var typeMappingScore = [-5, -5, -5, -5, -5,
-             -5, -5, -5, -5, -3,
-             -3, -3, -3, -3,
-             -2, -2, -2, -2, -2, -2,
-             -2, -2, -2, -2,
-             -1, -1, -1, -1,
-             -1, -1, -1, -1,
-             -1, -1, -1, -1, 0.5, 0.5, 0.5, 1, 1
-            ];
-
-        * */
+    private void initScoreMap(){
         mScoreHashMap = new HashMap<>();
         mScoreHashMap.put(0, new Score("타호실 무단 취침", -5.0));
         mScoreHashMap.put(1, new Score("취침시간 소란", -5.0));
@@ -180,9 +162,23 @@ public class ScoreActivity extends BaseActivity {
                 }
                 mTotalScore = mMinusScore + mPlusScore;
 
-                mPlusText.setText("상점 : "+mPlusScore+" 점");
-                mMinusText.setText("벌점 : "+mMinusScore+" 점");
-                mTotalText.setText("총 "+ mTotalScore+" 점");
+                if(studentScores.size() == 0){
+                    mGuideText.setVisibility(View.VISIBLE);
+                    mPlusText.setVisibility(View.INVISIBLE);
+                    mMinusText.setVisibility(View.INVISIBLE);
+                    mTotalText.setVisibility(View.INVISIBLE);
+
+                }else{
+                    mGuideText.setVisibility(View.INVISIBLE);
+
+                    mPlusText.setVisibility(View.VISIBLE);
+                    mMinusText.setVisibility(View.VISIBLE);
+                    mTotalText.setVisibility(View.VISIBLE);
+                    mPlusText.setText("상점 : "+mPlusScore+" 점");
+                    mMinusText.setText("벌점 : "+mMinusScore+" 점");
+                    mTotalText.setText("총 "+ mTotalScore+" 점");
+                }
+
 
                 mAdapter.notifyDataSetChanged();
                 hideProgressDialog();
