@@ -18,6 +18,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 
 import kr.hs.emirim.uuuuri.ohdormitory.Activity.QRCamActivity;
@@ -40,6 +43,9 @@ public class SleepOutFragment extends Fragment {
     TextView mTextMessage;
     TextView mTextParentCall;
     TextView mTextRecognize;
+
+    private String maxDate="2000.1.1";
+    private String maxFBdate;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,16 +76,21 @@ public class SleepOutFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot sleepOut) {
                 Iterator<DataSnapshot> childIterator = sleepOut.getChildren().iterator();
-                //users의 모든 자식들의 key값과 value 값들을 iterator로 참조
+
+                while(childIterator.hasNext()) {
+                    DataSnapshot sleepDataSnapshot = childIterator.next();
+                    String sleepOutDate = sleepDataSnapshot.getKey();
+                    checkDate(sleepOutDate);
+                }
+
                 String recognize="";
                 String date="";
                 String patentNumber="";
                 int cnt=0;
                 boolean sleepOutConfirm=true;
-                while(childIterator.hasNext()) {
-                    DataSnapshot sleepOutDate=childIterator.next();
 
-                    Iterator<DataSnapshot> sleepOutStudentMember=sleepOutDate.getChildren().iterator();
+
+                    Iterator<DataSnapshot> sleepOutStudentMember=sleepOut.child(maxFBdate).getChildren().iterator();
                     while(sleepOutStudentMember.hasNext()) {
                         DataSnapshot sleepOutMember=sleepOutStudentMember.next();
                         String myId=FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -101,19 +112,17 @@ public class SleepOutFragment extends Fragment {
                             continue;
                         }
                         sleepOutConfirm=true;
-                        cnt++;
 
                         recognize = sleepOutMember.child("recognize").getValue(String.class);
                         Log.e("레코그나이즈",recognize);
-                        date = sleepOutDate.getKey();
+                        date = maxFBdate;
                         Log.e("외박날짜",date);
                         patentNumber= sleepOutMember.child("parentNumber").getValue(String.class);
                         Log.e("부모님 번호",patentNumber);
                         break;
                     }
 
-                    if(cnt>=1) break;
-                }
+
 
                 Log.e("sadladlald", String.valueOf(sleepOutConfirm));
 
@@ -124,18 +133,6 @@ public class SleepOutFragment extends Fragment {
                     mTextParentCall.setText("");
                     mTextRecognize.setText("");
                     mCameraBtn.setVisibility(View.GONE);
-
-//
-//                    final Dialog mDialog = new Dialog(view.getContext(), R.style.MyDialog);
-//                    mDialog.setContentView(R.layout.dialog_style2);
-//                    ((TextView)mDialog.findViewById(R.id.dialog_text)).setText("이미 인증되었습니다.");
-//                    mDialog.findViewById(R.id.dialog_button_yes).setOnClickListener(new View.OnClickListener(){
-//                        @Override
-//                        public void onClick(View view) {
-//                            mDialog.dismiss();
-//                        }
-//                    });
-//                    mDialog.show();
 
                 }else if(!Boolean.parseBoolean(recognize) && sleepOutConfirm){//인증안했을 경우
                     Log.e("외박","인증안했습니다.");
@@ -183,6 +180,38 @@ public class SleepOutFragment extends Fragment {
 
             return string;
 
+        }
+
+    }
+    //TODO : 제일최근날짜체크
+    public void checkDate(String fbDate) {
+        String simpleFBDate=fbDate.replaceFirst("-",".");
+        simpleFBDate=simpleFBDate.replaceFirst("-",".");
+
+        int index = simpleFBDate.indexOf("-");
+        simpleFBDate = simpleFBDate.substring(0,index);
+
+        Log.e("파베 저장되있는 날짜",simpleFBDate);
+        Log.e("maxDate",maxDate);
+
+        try{
+            SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
+            Date max = format.parse(maxDate);
+
+            Date fb = format.parse(simpleFBDate);
+
+            long calDate = max.getTime() - fb.getTime();
+
+            // Date.getTime() 은 해당날짜를 기준으로1970년 00:00:00 부터 몇 초가 흘렀는지를 반환해준다.
+            // 이제 24*60*60*1000(각 시간값에 따른 차이점) 을 나눠주면 일수가 나온다.
+            long calDateDays = calDate / ( 24*60*60*1000);
+            if(calDateDays <= 0) {//max가 더 빠르다면
+                maxDate=simpleFBDate;
+                maxFBdate=fbDate;
+            }
+
+        } catch (ParseException e) {
+            Log.e("날짜 파싱에러","서로 타입이 맞지 않음.");
         }
 
     }
